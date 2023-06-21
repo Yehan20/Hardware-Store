@@ -8,7 +8,7 @@ const Navigation = () => {
     <Nav>
         <Ul>
             <Li>
-                <Link to='/sign-up'> Register </Link>
+                <Link to='/register'> Register </Link>
             </Li>
 
             <Li>

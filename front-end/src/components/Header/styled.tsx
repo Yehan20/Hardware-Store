@@ -7,7 +7,7 @@ export const Container  = styled.div`
    
 `
 export const FirstHeaderSection  = styled.div`
-   padding:1em 5em ;
+   padding:0.8em 5em ;
    /* background-color:#ff5d00;  */
    background-color:#f5f5f5; 
    color:#fff;

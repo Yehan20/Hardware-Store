@@ -1,3 +1,9 @@
+import PowerTools from '../assets/images/power-tools.jpg'
+import GardenTools from '../assets/images/garden-tools.jpg'
+import AllTools from '../assets/images/all-tools.jpg'
+import HandTools from '../assets/images/hand-tools.jpg'
+import MachineTools from '../assets/images/machine-tools.jpg'
+import Product from '../assets/images/product-1.jpg'
 /*
 Power Tools
     Engravers
@@ -24,4 +30,66 @@ Garden Equipment
     Electric Saws
     Brush Cutters*/ 
 
-export const name='';
+export const data=[
+   {
+    id:1,
+    img:PowerTools,
+    name:'Power Tools'
+   },
+   {
+    id:2,
+    img:GardenTools,
+    name:'Garden Tools'
+   },
+   {
+    id:3,
+    img:HandTools,
+    name:'Hand Tools'
+   },
+   {
+    id:4,
+    img:MachineTools,
+    name:'Machine Tools'
+   }
+   ,  {
+    id:5,
+    img:AllTools,
+    name:'All Sorts of Tools'
+   }
+
+];
+
+export const SampleProducts=[
+    {
+        id:1,
+        img:Product
+    },
+    {
+        id:2,
+        img:Product
+    },
+    {
+        id:3,
+        img:Product
+    },
+    {
+        id:4,
+        img:Product
+    },
+    {
+        id:5,
+        img:Product
+    },
+    {
+        id:6,
+        img:Product
+    },
+    {
+        id:7,
+        img:Product
+    },
+    {
+        id:8,
+        img:Product
+    }
+]
