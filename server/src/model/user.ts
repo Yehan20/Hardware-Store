@@ -2,17 +2,17 @@ import {model,Schema,Document,Model} from 'mongoose'
 import validator from 'validator';
 import bcrypt  from 'bcrypt';
 
-interface userInterface {
+interface userInterface extends Document {
     name:string;
     password:string;
     isAdmin:boolean;
-    Register(name: string, password: string):Promise<any>;
-    Login(name: string, password: string):Promise<any>;
+   
     
 }  
 
 interface userModelInterface extends Model<userInterface>{
-
+    Register(name: string, password: string):Promise<any>;
+    Login(name: string, password: string):Promise<any>;
 }
 
 const userSchema = new Schema({
@@ -75,4 +75,4 @@ userSchema.static("Login",async function(name:string,password:string){
 })
 
 
-export default model<userModelInterface,userInterface>('User',userSchema)
+export default model<userInterface,userModelInterface>('User',userSchema)

@@ -60,6 +60,15 @@ const login =async(req:Request,res:Response)=>{
     }
   }
 
+const viewUsers = async(req:Request,res:Response)=>{
+
+    try{
+      const  allUsers = await userModel.find({});
+      res.json({users:allUsers}).status(200);
+    }catch(e){
+      res.json({message:e.message}).status(400)
+    }
+}  
 export default {
-     register,login
+     register,login,viewUsers
 }
