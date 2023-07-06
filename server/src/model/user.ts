@@ -13,6 +13,7 @@ interface userInterface extends Document {
 interface userModelInterface extends Model<userInterface>{
     Register(name: string, password: string):Promise<any>;
     Login(name: string, password: string):Promise<any>;
+    GetUser(name: string):Promise<any>;
 }
 
 const userSchema = new Schema({
@@ -62,7 +63,7 @@ userSchema.static("Login",async function(name:string,password:string){
     const userExists = await this.findOne({name});
 
     if(!userExists){
-         throw Error('Now user is Exist for this acocunt')
+         throw Error('No user Exists for this acocunt')
     }
 
     // check if password is match
@@ -73,6 +74,18 @@ userSchema.static("Login",async function(name:string,password:string){
     return userExists
 
 })
+
+userSchema.static("GetUser",async function(name:string){
+    
+ 
+
+    // check if user exists
+    const userExists = await this.findOne({name});
+
+    return userExists
+
+})
+
 
 
 export default model<userInterface,userModelInterface>('User',userSchema)

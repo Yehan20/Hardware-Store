@@ -2,7 +2,7 @@ import express  from "express";
 import Logger from "./logger/logger";
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
-
+import cors from 'cors';
 
 // routers
 import userRouter from './routes/userRoutes';
@@ -16,6 +16,8 @@ const mongoURL = process.env.MONGO_URL || '';
 
 const app = express();
 
+
+// only start the server if we connect to mongo db
 mongoose.connect(mongoURL,{retryWrites:true}).then((response)=>{
      app.listen(3001,()=>{
           Logger.info("Server Running")
@@ -23,6 +25,7 @@ mongoose.connect(mongoURL,{retryWrites:true}).then((response)=>{
 }).catch(err=>Logger.error(err.message))
 
 
+// logger effect
 app.use((req,res,next)=>{
      Logger.info(`INCOMMING REQUEST-> ${req.method} | ${req.url} | IP ${req.socket.remoteAddress} `)
      res.on('finish',()=>{
@@ -32,6 +35,8 @@ app.use((req,res,next)=>{
 })
 
 app.use(express.json())
+app.use(express.static(__dirname + '/public'))
+app.use(cors());
 
 app.get('/ping',(req,res)=>{
      res.status(200).json({message:'Pong'})

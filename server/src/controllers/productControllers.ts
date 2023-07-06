@@ -46,7 +46,7 @@ const viewProduct = async(req:Request,res:Response)=>{
 }
 const viewProducts = async(req:Request,res:Response)=>{
     try{
-      const products = await productsModel.find({});
+      const products = await productsModel.find({}).sort(({createdAt:-1}));
       res.json({products:products}).status(200)
     }catch (error:unknown) {
         if(error instanceof Error){
@@ -59,7 +59,7 @@ const viewProductsCat = async(req:Request,res:Response)=>{
     const {category} = req.params;
     try{
         const product = await productsModel.find({category:category});
-        res.json({product:product}).status(200)
+        res.json({products:product}).status(200)
       }catch (error:unknown) {
           if(error instanceof Error){
               res.json({message:error.message}).status(500)
