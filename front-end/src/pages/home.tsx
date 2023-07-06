@@ -1,12 +1,15 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import AnnounceMent from '../components/AnnounceMent'
 import Category from '../components/Category'
-import Footer from '../components/Footer'
-import Header from '../components/Header'
 import Product from '../components/Products'
 import Slider from '../components/Slider'
 
 const Home = () => {
+
+  useEffect(()=>{
+     document.title='Tool Land'
+  },[])
+  
   return (
     <>
       {/* <Header/> */}

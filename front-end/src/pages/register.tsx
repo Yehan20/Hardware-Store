@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom';
 import styled from 'styled-components'
 import Bg from '../assets/images/login.jpg'
+import { Andriod } from '../Responsive';
 document.title='Login';
 
 const Form = styled.form`padding-bottom:1em;  margin:0em auto; width:100%; max-width:550px; font-family:'poppins',sans-serif;`
@@ -13,7 +14,10 @@ background-color:rgba(0,0,0,0.7);
 background-image:url(${Bg});
 background-repeat:no-repeat; 
 background-size:100%; background-position:left;
-background-blend-mode:multiply;`
+background-blend-mode:multiply;
+${Andriod({padding:'1em 2em',backgroundSize:'cover'})};
+`
+
 
 const InputContainer = styled.div``
 
@@ -42,6 +46,11 @@ const Desc = styled.p`
 
 
 const Register = () => {
+
+  useEffect(()=>{
+    document.title='Register'
+  },[])
+  
   return (
      <Container>
         <Title>Register</Title>

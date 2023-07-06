@@ -2,21 +2,23 @@ import React from 'react'
 import { HeaderStyled, Container, TitleHeader, Left, Right, HeaderButton, HeaderText, FirstHeaderSection, SecondHeaderSection, ThirdHeaderSection, SearchContainer, Search, SearchButton, HeaderPara } from './styled'
 import { FaChevronDown ,FaSearch} from 'react-icons/fa'
 import Navigation from '../Navigation'
+import { Link } from 'react-router-dom'
+import Notfication from '../Notifcation'
 const Header = () => {
   return (
     <Container>
 
       <FirstHeaderSection>
-        <Left><TitleHeader>Tools Suppliers</TitleHeader></Left>
+        <Left><TitleHeader><Link to={'/'}>Tools Suppliers</Link></TitleHeader></Left>
         <Right>
           <HeaderPara>Language : EN</HeaderPara>
           <HeaderButton>My Account <FaChevronDown /></HeaderButton>
         </Right>
       </FirstHeaderSection>
 
-      <SecondHeaderSection>
+      {/* <SecondHeaderSection>
         <HeaderText>Super Deal All Products 50% off</HeaderText>
-      </SecondHeaderSection>
+      </SecondHeaderSection> */}
 
       <ThirdHeaderSection>
         <SearchContainer>

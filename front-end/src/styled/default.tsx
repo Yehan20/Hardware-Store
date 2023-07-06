@@ -1,16 +1,41 @@
-import  {createGlobalStyle} from 'styled-components'
+import { createGlobalStyle } from 'styled-components'
 
 export const GlobalStyles = createGlobalStyle`
+
+   :root {
+
+    --toastify-color-dark: #000 !important;
+    --toastify-text-color-light: #000;
+    
+   }
+
+   .toastify{
+     font-family:'Poppins',sans-serif !important;
+   }
+   .Toastify__toast-body{
+    font-family:'Poppins',sans-serif !important;
+   }
+
    *::after,*::before,*{
      box-sizing:border-box ;
    }
 
+
    body{
-     margin:0 !important ;
+     margin:0;
+    
    }
+   
+
+   .App{
+     display:flex ;
+     flex-direction:column ;
+     min-height:100vh ;
+   }
+   
    .carousel-item img {
   max-height: 550px; /* Adjust the height value as per your requirement */
-}
+   }
 .fixed-caption {
   position: absolute;
   top: 50%;

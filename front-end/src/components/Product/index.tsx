@@ -2,22 +2,28 @@ import React from 'react'
 import { CategoryItemType } from '../../types/types'
 import { ProductContainer, Image, ButtonContainer, Button } from './style'
 import { FaHeart, FaSearch, FaShoppingCart } from 'react-icons/fa'
+import { Link } from 'react-router-dom'
 const Product = ({ product }: CategoryItemType) => {
+ // console.log(product);
   return (
-    <ProductContainer>
+
+     <ProductContainer >
       <Image src={product?.img} alt='product' />
       <ButtonContainer>
-        <Button>
+         <Link to={'/products/product/'+product?._id}>
+          <Button title='View Product'>
           <FaSearch />
-        </Button>
-        <Button>
+          </Button>
+         </Link>
+        <Button title='Add to WishList'>
           <FaHeart />
         </Button>
-        <Button>
+        <Button title='Add to Cart'>
           <FaShoppingCart />
         </Button>
       </ButtonContainer>
     </ProductContainer>
+
   )
 }
 

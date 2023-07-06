@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import * as BreakPoints from '../../Responsive';
 
 export const Container=styled.div`
 
@@ -12,6 +13,7 @@ export const CarouselContainer=styled.div`
   right:-140px ; */
   /* width:500px ;
   height:230px ; */
+
   display:flex ;
   text-align:start ;
   flex-direction:column ;
@@ -29,6 +31,7 @@ export const CarouselContainer=styled.div`
       opacity:0.7 ;
     }
   }
+  ${BreakPoints.Andriod({display:'none'})};
 `
 
 export const Title = styled.h3`

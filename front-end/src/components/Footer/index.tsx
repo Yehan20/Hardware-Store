@@ -1,9 +1,10 @@
-import React from 'react'
 import { Button, Column, Container, Desc, FirstFooter, Icon, Icons, Input, List, ListItem, ListLink, SearchContainer, SecondFooter, Title } from './style'
 import {ImLocation} from 'react-icons/im'
 import {BiEnvelope,BiMobileAlt} from 'react-icons/bi';
 import {FaFacebook,FaTwitter,FaInstagram} from 'react-icons/fa';
 import {BsClock} from 'react-icons/bs'
+
+
 const Footer = () => {
   return (
     <Container>

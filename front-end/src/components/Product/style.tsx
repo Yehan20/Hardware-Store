@@ -1,7 +1,9 @@
 import styled from "styled-components";
+import * as BreakPoints from '../../Responsive';
 
 export const Image=styled.img`
   width:100% ;
+  ${BreakPoints.Andriod({maxWidth:'400px',margin:'0 auto',display:'block'})};
 `
 export const ButtonContainer=styled.div`
    position:absolute ;
@@ -20,12 +22,14 @@ export const ButtonContainer=styled.div`
 `
 
 export const ProductContainer=styled.div`
-   background-color:red ;
-   width:18rem ;
+   
+   width:14rem ;
    position:relative ;
    &:hover ${ButtonContainer}{
       opacity:1 ;
    }
+   ${BreakPoints.TabVertical({width:'45%'})}
+   ${BreakPoints.Andriod({width:'100%'})};
 `
 export const Button=styled.button`
   background-color:#fff ;
@@ -33,5 +37,8 @@ export const Button=styled.button`
   border-radius:100% ;
   display:inline-block ;
   padding:0.6em 0.8em;
+  a{
+   color:inherit;
+  }
 
 `

@@ -34,27 +34,32 @@ export const data=[
    {
     id:1,
     img:PowerTools,
-    name:'Power Tools'
+    name:'Power Tools',
+    link:'Power Tools'
    },
    {
     id:2,
     img:GardenTools,
-    name:'Garden Tools'
+    name:'Garden Tools',
+    link:'Garden Tools'
    },
    {
     id:3,
     img:HandTools,
-    name:'Hand Tools'
+    name:'Hand Tools',
+    link:'Hand Tools'
    },
    {
     id:4,
     img:MachineTools,
-    name:'Machine Tools'
+    name:'Machine Tools',
+    link:'Machine Tools'
    }
    ,  {
     id:5,
     img:AllTools,
-    name:'All Sorts of Tools'
+    name:'All Sorts of Tools',
+    link:'All'
    }
 
 ];

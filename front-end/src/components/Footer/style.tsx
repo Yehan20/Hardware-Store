@@ -1,13 +1,16 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import {ColoumnProp} from '../../types/types'
+import * as BreakPoints from '../../Responsive';
 export const Container  = styled.footer`
-
+  margin-top:auto ;
 `
 export const FirstFooter = styled.div`
   display:flex ;
   padding:2em 5em ;
   justify-content:space-between ;
+  ${BreakPoints.TabVertical({flexWrap:'wrap',gap:'1em'})};
+  ${BreakPoints.TabVertical({padding:'2em 2em'})};
 `
 export const SecondFooter = styled.div`
   text-align:center ;
@@ -17,6 +20,8 @@ export const SecondFooter = styled.div`
 export const Column  = styled.div<ColoumnProp>`
    flex-grow:1 ;
    width:${(props)=>props.width?props.width+'%':'auto'} ;
+   ${BreakPoints.TabVertical({width:'48%'})};
+   ${BreakPoints.Andriod({width:'100%'})};
 `
 export const Title  = styled.h3`
    font-family:'Rajdhani' ;
@@ -38,12 +43,13 @@ export const ListLink= styled(Link)`
   color:#123;
 `
 export const Input = styled.input`
-
+width:100% ;
 padding:0em 1em ;
   &:focus{
     outline:0 ;
     border:1px solid #123;
   }
+  ${BreakPoints.LG({maxWidth:'300px',backgroundSize:'cover'})};
 `
 
 

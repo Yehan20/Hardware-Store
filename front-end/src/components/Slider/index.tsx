@@ -11,14 +11,14 @@ import Image3 from '../../assets/images/slide-3.jpg'
 const Slider = () => {
     return (
         <Container>
-            <Carousel.Caption className='fixed-caption'>
+            <Carousel.Caption className='fixed-caption d-none d-md-block'>
                 <CarouselContainer>
                     <Title>For All you Home and Hardware Needs</Title>
                     <Details>
                         Find Everthing from Indor to Outdoor tools for both construction
                         and House you name it we got It
                     </Details>
-                    <Link to='/test'>See Products</Link>
+                    <Link to='/products'>See Products</Link>
                 </CarouselContainer>
             </Carousel.Caption>
 

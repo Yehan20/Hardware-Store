@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 export const Nav = styled.nav`
@@ -14,6 +15,8 @@ export const Ul = styled.ul`
 `
  
 export const Li = styled.li`
+     font-family:'Poppins',sans-serif ;
+     color:#fff;
   a{
     text-decoration:none ;
     font-family:'Poppins',sans-serif ;
@@ -27,7 +30,7 @@ export const Li = styled.li`
 export const NavLink = styled.a`
 
 `
-export const Button = styled.button`
+export const Button = styled(Link)`
   display:inline-block ;
   padding-top:0.2em ;
    background-color:transparent ;

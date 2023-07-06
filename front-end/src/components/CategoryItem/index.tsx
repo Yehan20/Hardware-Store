@@ -8,7 +8,7 @@ const CategoryItem= ({item}:CategoryItemType) => {
      <CategoryItemContainer>
          <Image src={item?.img} alt={item?.name}/>
          <Title>{item?.name}</Title>
-         <Link to={'/product/'+item?.name}>View</Link>
+         <Link to={'/products/type/'+item?.link}>View</Link>
      </CategoryItemContainer>
   )
 }

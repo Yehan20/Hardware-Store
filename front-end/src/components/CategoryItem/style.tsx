@@ -1,5 +1,5 @@
 import styled from "styled-components";
-
+import { Ios,LG } from "../../Responsive";
 export const CategoryItemContainer=styled.div`
   min-width:20rem ;
   flex-grow:1 ;
@@ -24,7 +24,10 @@ export const CategoryItemContainer=styled.div`
     &:hover{
         transform:translateX(10px) ;
     }
+  
 }
+${Ios({minWidth:'10rem'})};
+${LG({minHeight:'450px'})};
 `
 export const Title = styled.h3`
  font-size:2.5rem ;

@@ -8,7 +8,7 @@ const AnnounceMent = () => {
          <Desc>
            Hammers, Chisels, Universal Pliers, Nippers, Jigsaws, Saws
          </Desc>
-         <StyledLink to='/products/all'>Show more</StyledLink>
+         <StyledLink to='/products/type/All'>Show more</StyledLink>
     </Container>
   )
 }

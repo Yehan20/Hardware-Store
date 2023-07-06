@@ -2,12 +2,15 @@ import styled from "styled-components";
 import {Link} from 'react-router-dom'
 import Bg from '../../assets/images/banner-1.jpg'
 export const Container = styled.div`
-  background-color:rgb(245, 245, 245) ;
+
   text-align:center ;
   padding:2em 1em ;
   background-image:url(${Bg}) ;
   background-repeat:no-repeat ;
   background-size:cover ;
+  background-color:rgba(0,0,0,0.7) ;
+  background-blend-mode:multiply ;
+  color:#fff ;
 `
 export const Title = styled.h3`
   font-family:'Rajdhani',sans-serif ;

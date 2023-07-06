@@ -1,8 +1,12 @@
-import React from 'react'
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components'
 import Bg from '../assets/images/login.jpg'
-document.title='Login';
+import {Andriod,LG} from '../Responsive'
+import { useAppDispatch, useAppSelector } from '../hooks/redux_selectors';
+import { login } from '../slices/authSlice';
+import { ToastContainer, toast } from 'react-toastify';
+import Notfication from '../components/Notifcation';
 
 const Form = styled.form`padding-bottom:1em;  margin:0em auto; width:100%; max-width:550px; font-family:'poppins',sans-serif;`
 
@@ -13,7 +17,11 @@ background-color:rgba(0,0,0,0.7);
 background-image:url(${Bg});
 background-repeat:no-repeat; 
 background-size:100%; background-position:left;
-background-blend-mode:multiply;`
+background-blend-mode:multiply;
+${Andriod({padding:'1em 2em',backgroundSize:'cover'})};
+${LG({padding:'10em 2em'})};
+`
+
 
 const InputContainer = styled.div``
 
@@ -24,7 +32,11 @@ const Input = styled.input`display:block; border:1px solid #ccc; &:focus{
 const Label = styled.label` color:#fff;`
 
 const Button = styled.button`display:inline-block; width:100%; font-family:'Poppins',sans-serif; color:#fff; padding:0.4em 1em;
- margin-top:1.5em; border:0; background-color:rgb(255, 93, 0);`
+ margin-top:1.5em; border:0; background-color:rgb(255, 93, 0);
+   &:hover{
+     opacity:0.8;
+   }
+ `
 
 const Title = styled.h2`text-align:center; font-family:'Rajdhani',sans-serif; color:#fff;`
 
@@ -34,33 +46,72 @@ const Desc = styled.p`
   text-align:center ;
   margin:0 ;
   color:#fff;
+  font-family:'Poppins',sans-serif;
   a{
     color:orange;
   }
 `
 
 
+
 const Login = () => {
+
+  const[username,setUsername] = useState('')
+  const[password,setPassword] = useState('')
+  const navgiate = useNavigate();
+
+
+  const dispatch = useAppDispatch();
+  const {user,error,loading} = useAppSelector((state)=>state.Auth)
+
+   console.log(loading);
+
+
+  const handleClick = ()=>{
+     const User ={
+       username,password
+     }
+     
+     dispatch(login(User))
+
+     if(error){
+         console.log("error",error);
+   
+     }
+     if(user){
+        console.log(user)
+        localStorage.setItem('token',user.token);
+        navgiate('/');
+     }
+
+  }
+  
+  useEffect(()=>{
+    document.title='Login'
+  },[])
+  
   return (
      <Container>
         <Title>Login </Title>
         <Form>
             <InputContainer>
               <Label>Username</Label>
-              <Input/>
+              <Input value={username} onChange={(e)=>setUsername(e.target.value)}/>
             </InputContainer>
 
             <InputContainer>
               <Label>Password</Label>
-              <Input/>
+              <Input value={password} onChange={(e)=>setPassword(e.target.value)}/>
             </InputContainer>  
 
-            <Button type='submit'>Login</Button>   
+            <Button disabled={loading} onClick={handleClick} type='button'>Login</Button>   
         </Form>
         <Desc>Not a user Click <Link to='/register'>here</Link> to make one</Desc>
-        <Error>
-             <Desc></Desc>
-        </Error>
+        <ToastContainer></ToastContainer>
+        {/* <Error>
+             <Desc>{errormsg}</Desc>
+        </Error> */}
+        <Notfication />
      </Container>
   )
 }
