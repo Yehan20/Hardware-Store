@@ -12,7 +12,15 @@ const SECRET_KEY = process.env.SECRET_KEY || '';
 //      user:any
 // }
 
-export const verifyToken = (req:Request,res:Response,next:NextFunction)=>{
+export interface CustomRequest  extends Request {
+   user?:{
+     username:string|'',
+     _id:string,
+     isAdmin:boolean
+     iat:string,
+   }|any;
+}
+export const verifyToken = (req:CustomRequest,res:Response,next:NextFunction)=>{
 
        const token = req.headers['authorization']?.split(' ')[1]; // token
        Logger.info(token)
@@ -24,6 +32,9 @@ export const verifyToken = (req:Request,res:Response,next:NextFunction)=>{
            if(err){
                return res.json({message:"token not verifed"}).status(400)
            }
+           console.log('data',data);
+
+           req.user = data
 
            next();
        })

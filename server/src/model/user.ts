@@ -40,6 +40,11 @@ userSchema.static("Register",async function(name:string,password:string){
     if(!(validator.isStrongPassword(password))){
         throw Error("Password is Not Strong")
     }
+     
+    const sameUser = await this.findOne({name})
+    if(sameUser){   
+        throw Error("That name is used")
+    }
     // create hashed password
     const salt  = await bcrypt.genSalt();
     const hashedPwd = await bcrypt.hash(password,salt);

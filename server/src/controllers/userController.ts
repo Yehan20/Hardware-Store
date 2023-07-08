@@ -3,8 +3,7 @@ import {Request,Response} from 'express'
 import userModel from '../model/user';
 import cart from '../model/cart';
 
-import {genToken} from '../middlewares/verify_tokens'
-import jwt from 'jsonwebtoken'
+import {CustomRequest, genToken} from '../middlewares/verify_tokens'
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -12,6 +11,7 @@ dotenv.config();
 const KEY = process.env.SECRET_KEY||'';
 
 const register =async(req:Request,res:Response)=>{
+
   const {username,password:Pwd} = req.body;
   try{
      const createdUser = await  userModel.Register(username,Pwd)
@@ -27,7 +27,7 @@ const register =async(req:Request,res:Response)=>{
      }
 
 
-     const token = genToken(createdUser.username,createdUser.isAdmin);
+     const token = genToken(createdUser.name,createdUser.isAdmin);
 
      const {password,...rest} = createdUser._doc;
      rest.token = token;
@@ -65,33 +65,18 @@ const login =async(req:Request,res:Response)=>{
     }
 }
 
-const getUser = async(req:Request,res:Response)=>{
-   const token = req.body;
-   if(!token){
-     return res.status(400).json({message:'No Token '})
-   }
-   let user ={
-     name:''
-   }
-   jwt.verify(token,KEY,(err:unknown,data:any)=>{
-         if(err){
-           return res.status(400).json({message:'Not Authroized'})
-         }
-         if(data){
-             user = data
-         }
-   })
-   try {
+const getUser = async(req:CustomRequest,res:Response)=>{
+  const user = req.user;
+  console.log('user from the middle where',user);
+  try {
 
-    const userExists = await userModel.GetUser(user.name)
+    const userExists = await userModel.GetUser(user.username)
     const {password,...rest} = userExists._doc
     res.status(200). json({user:rest})   
 
    } catch (error) {
      res.status(400).json({error:error})
    }
-
-
 
 }
 
