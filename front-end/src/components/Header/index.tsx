@@ -1,10 +1,33 @@
-import React from 'react'
-import { HeaderStyled, Container, TitleHeader, Left, Right, HeaderButton, HeaderText, FirstHeaderSection, SecondHeaderSection, ThirdHeaderSection, SearchContainer, Search, SearchButton, HeaderPara } from './styled'
+import { useRef, useState } from 'react'
+import { Container, TitleHeader, Left, Right, HeaderButton, HeaderText, FirstHeaderSection, SecondHeaderSection, ThirdHeaderSection, SearchContainer, Search, SearchButton, HeaderPara, Menu } from './styled'
 import { FaChevronDown ,FaSearch} from 'react-icons/fa'
 import Navigation from '../Navigation'
 import { Link } from 'react-router-dom'
 import Notfication from '../Notifcation'
+import { useAppDispatch, useAppSelector } from '../../hooks/redux_selectors'
+import useCustomRef from '../../hooks/useCustomRef'
+import { logout } from '../../slices/authSlice'
 const Header = () => {
+  const user = useAppSelector(user=>user.Auth.user)
+  const [show,setShow] = useState(false);
+  
+  const menuRef = useRef(null)
+  const dispatch  =useAppDispatch();
+
+  useCustomRef(menuRef,()=>{
+      setShow(false);
+  })
+
+  const handleLogout = ()=>{
+       dispatch(logout());
+  }
+
+
+
+  const MenuBar = <Menu ref={menuRef}>
+     <Link to={'order'}>Orders</Link>
+     <button onClick={handleLogout}>Logout</button>
+  </Menu>
   return (
     <Container>
 
@@ -12,7 +35,8 @@ const Header = () => {
         <Left><TitleHeader><Link to={'/'}>Tools Suppliers</Link></TitleHeader></Left>
         <Right>
           <HeaderPara>Language : EN</HeaderPara>
-          <HeaderButton>My Account <FaChevronDown /></HeaderButton>
+          {user && <HeaderButton onClick={()=>setShow(!show)}>My Account <FaChevronDown /></HeaderButton>}
+          {show&&MenuBar}
         </Right>
       </FirstHeaderSection>
 
@@ -27,6 +51,7 @@ const Header = () => {
         </SearchContainer>
         <Navigation />
       </ThirdHeaderSection>
+      <Notfication/>
     </Container>
   )
 }

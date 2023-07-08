@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import {FaPlus,FaMinus} from 'react-icons/fa'
-import img from '../assets/images/product-1.jpg'
 import { animateScroll as scroll } from 'react-scroll';
 import * as BreakPoints from '../Responsive'
 import { useAppDispatch, useAppSelector } from '../hooks/redux_selectors';
 import { getSingleProduct } from '../slices/productSlice';
 import { useParams } from 'react-router';
 import { SingleProductType } from '../types/types';
+import { addCart } from '../slices/cartSlice';
+
 const Container= styled.div`
  display:flex ;
  padding:1em 5em ;
@@ -89,22 +90,40 @@ const Color = styled.div`
 `
 
 const SingleProduct = () => {
-  //const [product,setProduct] = useState('')
-  //let fetchedProduct = useAppSelector(state=>state.Products.singleProduct);
+
   const product = useAppSelector(state=>state.Products.singleProduct)
 
+
   const {id}  = useParams();
-  console.log(id);
   const dispatch = useAppDispatch()
+
+  const [amount,setAmout] = useState(1)
+
+  const handleClick = ()=>{
+      //create an cartItem Object
+      const item = {
+         name:product.name,
+         amount:amount,
+         price:product.price * amount,
+         img:product.img,
+         category:product.category
+      }
+      dispatch(addCart(item));
+  }
+
   useEffect(()=>{
+
     scroll.scrollToTop({
         duration: 150, // Specify the duration in milliseconds (e.g., 250ms)
         smooth: true, 
       })
+
      dispatch(getSingleProduct(id as string))
      document.title='Product'
    
   },[])
+
+
   return (
      <>
         {product && <Container>
@@ -121,19 +140,22 @@ const SingleProduct = () => {
             <Color style={{backgroundColor:`${product.color?product.color:'red'}`}}/>
          </Colors>
          <Label>Avalibility: {product.inStock?"In Stock" : 'Out of Stock'} </Label>
-         <Price>RS : {product.price}</Price>
+         <Price>රු : {product.price * amount}</Price>
          <Label>Amount</Label>
          <Flex>
          <AmountContainer>
-           <CartButton>
+           <CartButton onClick={()=>setAmout((prev)=>{
+               if(prev<=1){return 1}
+               return prev -1
+           })}>
               <FaMinus/> 
            </CartButton>  
-           <Amount type={'number'}/>
-           <CartButton>
+           <Amount min='1' readOnly value={amount} type={'number'}/>
+           <CartButton onClick={()=>setAmout((prev)=>prev +1)}>
               <FaPlus/>   
           </CartButton>  
           </AmountContainer>
-          {product.inStock && <Button >Add to Cart</Button>}
+          {product.inStock && <Button onClick={handleClick} >Add to Cart</Button>}
          </Flex>
 
       </Column>

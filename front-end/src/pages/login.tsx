@@ -63,28 +63,26 @@ const Login = () => {
 
   const dispatch = useAppDispatch();
   const {user,error,loading} = useAppSelector((state)=>state.Auth)
+  
 
-   console.log(loading);
+   console.log(user);
 
 
   const handleClick = ()=>{
+    console.log('clicked')
      const User ={
        username,password
      }
      
      dispatch(login(User))
+  }
 
-     if(error){
-         console.log("error",error);
-   
-     }
+  useEffect(()=>{
      if(user){
-        console.log(user)
         localStorage.setItem('token',user.token);
         navgiate('/');
      }
-
-  }
+  },[user])
   
   useEffect(()=>{
     document.title='Login'
@@ -101,13 +99,12 @@ const Login = () => {
 
             <InputContainer>
               <Label>Password</Label>
-              <Input value={password} onChange={(e)=>setPassword(e.target.value)}/>
+              <Input type='password' value={password} onChange={(e)=>setPassword(e.target.value)}/>
             </InputContainer>  
 
             <Button disabled={loading} onClick={handleClick} type='button'>Login</Button>   
         </Form>
         <Desc>Not a user Click <Link to='/register'>here</Link> to make one</Desc>
-        <ToastContainer></ToastContainer>
         {/* <Error>
              <Desc>{errormsg}</Desc>
         </Error> */}

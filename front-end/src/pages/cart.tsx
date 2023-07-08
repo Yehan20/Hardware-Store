@@ -4,6 +4,8 @@ import styled from 'styled-components'
 import productImg from '../assets/images/product-1.jpg';
 import { FaPlus, FaMinus } from 'react-icons/fa'
 import * as BreakPoints from '../Responsive';
+import { useAppDispatch, useAppSelector } from '../hooks/redux_selectors';
+import { calculateTotal } from '../slices/cartSlice';
 
 
 type Clr = {
@@ -79,7 +81,7 @@ const CartSummary = styled.div`
   font-family: 'Poppins';
 `
 const Image = styled.img`
-  width:250px ;
+  width:120px ;
   ${BreakPoints.Andriod({width:'200px'})};
 `
 const CartItem = styled.div`
@@ -119,9 +121,12 @@ const Button = styled.div`
   cursor:pointer ;
 `
 
-const Amount = styled.h3``
+const Amount = styled.h3`
+   font-size:1.3rem;  
+`
 const Price = styled.h3`
  width:100% ;
+ font-size:1.3rem;
  ${BreakPoints.Andriod({width:'auto',marginLeft:'auto'})};
 `
 
@@ -130,17 +135,23 @@ const SummaryHead = styled.h3``;
 const SummaryDesc = styled.p``;
 const CheckoutButton = styled.button``;
 
+// Discount
+
 
 const Cart = () => {
+   const {cart,totalamount,total} = useAppSelector((state)=>state.Cart)
+   const dispatch = useAppDispatch();
+
    useEffect(() => {
-      document.title = 'Cart'
+      document.title = 'Cart';
+       dispatch(calculateTotal())
    }, [])
    return (
       <Container>
          <Title>Your Cart</Title>
          <CartNav>
-            <CartButton border='' text='white' clr='black' to={'/'}>Continue Shopping</CartButton>
-            <CartHeading>Shopping Bag</CartHeading>
+            <CartButton border='' text='white' clr='black' to={'/products'}>Continue Shopping</CartButton>
+            <CartHeading>Shopping Bag ({totalamount})</CartHeading>
             <CartHeading>Your Wish List</CartHeading>
             <CartButton border='grey' text='black' clr='white' to={'/'}>Checkout</CartButton>
          </CartNav>
@@ -148,46 +159,33 @@ const Cart = () => {
          <CartDeatils>
 
             <CartItems>
-               <CartItem>
-                  <Image src={productImg} alt='Image' />
-                  <CartItemBody>
-                     <CartItemDetail>
-                        <Desc><Bold>Product Id</Bold>Test</Desc>
-                        <Desc><Bold>Name</Bold>Test</Desc>
-                        <Desc><Bold>Category</Bold>Test</Desc>
-                     </CartItemDetail>
-                     <CartItemPrice>
-                        <Button><FaPlus /></Button>
-                        <Amount>2</Amount>
-                        <Button><FaMinus /></Button>
-                        <Price>300</Price>
-                     </CartItemPrice>
-                  </CartItemBody>
-               </CartItem>
-               <CartItem>
-                  <Image src={productImg} alt='Image' />
-                  <CartItemBody>
-                     <CartItemDetail>
-                        <Desc><Bold>Product Id</Bold>Test</Desc>
-                        <Desc><Bold>Name</Bold>Test</Desc>
-                        <Desc><Bold>Category</Bold>Test</Desc>
-                     </CartItemDetail>
-                     <CartItemPrice>
-                        <Button><FaPlus /></Button>
-                        <Amount>2</Amount>
-                        <Button><FaMinus /></Button>
-                        <Price>300</Price>
-                     </CartItemPrice>
-                  </CartItemBody>
-               </CartItem>
+               {cart && cart.map((item,index)=>{
+                  return(
+                     <CartItem key={index}>
+                        <Image src={item.img} alt='Image' />
+                        <CartItemBody>
+                           <CartItemDetail>
+                              <Desc><Bold>Product Name</Bold> {item.name}</Desc>
+                              <Desc><Bold>Category</Bold> {item.category}</Desc>
+                           </CartItemDetail>
+                           <CartItemPrice>
+                              <Button><FaPlus/></Button>
+                              <Amount>{item.amount}</Amount>
+                              <Button><FaMinus /></Button>
+                              <Price> රු {item.price}</Price>
+                           </CartItemPrice>
+                        </CartItemBody>
+                     </CartItem>
+               )
+               })}
+
             </CartItems>
 
             <CartSummary>
                <SummaryHead>Summary</SummaryHead>
-               <SummaryDesc>Subtoal <Bold>1</Bold></SummaryDesc>
-               <SummaryDesc>Estimated Shopping : <Bold>12</Bold></SummaryDesc>
-               <SummaryDesc>Estimated Discount : <Bold>14</Bold></SummaryDesc>
-               <SummaryDesc>Total :<Bold>12</Bold></SummaryDesc>
+               <SummaryDesc>Subtotal <Bold>රු : {total.subtotal.toLocaleString()}</Bold></SummaryDesc>
+               <SummaryDesc>Estimated Discount : <Bold>{total.discount}%</Bold></SummaryDesc>
+               <SummaryDesc>Total <Bold>රු : {total.final}</Bold></SummaryDesc>
                <CheckoutButton>Checkout</CheckoutButton>
             </CartSummary>
 

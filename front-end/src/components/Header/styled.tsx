@@ -9,6 +9,35 @@ export const Container  = styled.div`
 
    
 `
+export const Menu = styled.div`
+  display:flex;
+  flex-direction:column;
+  position: absolute;
+   top: 3em;
+   left: 50%;
+   width: 120px;
+   height: 100px;
+   background: white;
+   padding: 1em;
+   z-index: 99;
+   gap:1em;
+  *{
+    width:100% ;
+    font-family:'Poppins',sanserif,
+    padding:0.5em 1em;
+    color:#fff;
+    background:rgb(255, 93, 0);
+    padding:0.2em 1em;
+    border:0;
+    &:hover{
+      opacity:0.7;
+      color:#fff;
+    }
+  }
+  a{
+   text-decoration:none
+  }
+`
 export const FirstHeaderSection  = styled.div`
    padding:0.8em 5em ;
 
@@ -77,6 +106,7 @@ export const Right = styled.div`
    display:flex ;
    align-items:center ;
    gap:1em;
+   position:relative ;
 `
 export const SearchContainer = styled.div`
  display:flex ;

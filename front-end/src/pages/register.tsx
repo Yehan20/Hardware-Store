@@ -1,9 +1,14 @@
-import React, { useEffect } from 'react'
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components'
 import Bg from '../assets/images/login.jpg'
 import { Andriod } from '../Responsive';
-document.title='Login';
+import {ToastContainer,toast} from 'react-toastify'
+import { useAppDispatch, useAppSelector } from '../hooks/redux_selectors';
+import { register } from '../slices/authSlice';
+import Notfication from '../components/Notifcation';
+
+
 
 const Form = styled.form`padding-bottom:1em;  margin:0em auto; width:100%; max-width:550px; font-family:'poppins',sans-serif;`
 
@@ -47,9 +52,49 @@ const Desc = styled.p`
 
 const Register = () => {
 
+  const [username,setusername] = useState('');
+  const [password,setPassword] = useState('');
+  const [confirmPassowrd,setConfirmPassword] = useState('');
+
+  const dispatch = useAppDispatch();
+  const {user}= useAppSelector((state)=>state.Auth)
+  console.log(user)
+  const navigate = useNavigate();
+
+  const handleClick = ()=>{
+
+     if(confirmPassowrd!==password){
+      toast("Passwords are not matching",{
+        position: "top-center",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        type:"warning",
+        progress: undefined,
+        theme: "light",
+    
+      })
+         return
+     }
+
+     
+     dispatch(register({username,password}))
+   
+  }
+
   useEffect(()=>{
     document.title='Register'
   },[])
+
+  useEffect(()=>{
+    if(user){
+       localStorage.setItem('token',user.token);
+       navigate('/');
+    }
+ },[user])
+
   
   return (
      <Container>
@@ -57,25 +102,26 @@ const Register = () => {
         <Form>
             <InputContainer>
               <Label>Username</Label>
-              <Input/>
-            </InputContainer>
-
-            <InputContainer>
-              <Label>Email</Label>
-              <Input type={'email'}/>
+              <Input onChange={(e)=>setusername(e.target.value)} value={username}/>
             </InputContainer>
 
             <InputContainer>
               <Label>Password</Label>
-              <Input type={'password'}/>
+              <Input  onChange={(e)=>setPassword(e.target.value)}value={password} type={'password'}/>
+            </InputContainer>
+
+            <InputContainer>
+              <Label>Confirm Password</Label>
+              <Input  onChange={(e)=>setConfirmPassword(e.target.value)} value={confirmPassowrd}type={'password'}/>
             </InputContainer>  
 
-            <Button type='submit'>Register</Button>   
+            <Button onClick={handleClick} type='button'>Register</Button>   
         </Form>
         <Desc>Have an Account Click <Link to={'/login'}>to Login </Link></Desc>
         <Error>
-             <Desc></Desc>
+           <ToastContainer/>
         </Error>
+        <Notfication/>
      </Container>
   )
 }

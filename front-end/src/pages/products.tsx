@@ -1,9 +1,11 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import {Container} from '../components/Products/style'
 import Product from '../components/Product'
 import { SampleProducts } from '../data/data'
 import styled from 'styled-components'
 import { Ios } from '../Responsive'
+import { useAppDispatch, useAppSelector } from '../hooks/redux_selectors'
+import { getProductCat, sortProduct } from '../slices/productSlice'
 
 const Navigation = styled.div`
   display:flex ;
@@ -17,10 +19,10 @@ const Navigation = styled.div`
 
 const Select = styled.select`margin-left:0.5em;`;
 const Options = <>
-  <option value='all'>All Tools</option>
-  <option value='powertools'>Power Tools</option>
-  <option value='gardertools'>Garden Tools</option> 
-  <option value='machinetools'>Machine Tools</option>
+  <option value=''>All Tools</option>
+  <option value='Power Tools'>Power Tools</option>
+  <option value='Garden Tools' >Garden Tools</option> 
+  <option value='Machine Tools'>Machine Tools</option>
 </>
 
 const PriceOptions = <>
@@ -37,24 +39,41 @@ const Column = styled.div`
    }
 `
 const Products = () => {
+  const products = useAppSelector(state=>state.Products.productCategory)
+  const [sortCri,setSortCri] = useState('');
+  const [category,setCategory] = useState('');
+
+  const filteredProducts=category?products.filter((product)=>product.category===category):products;
+
+  const dispatch = useAppDispatch();
+
+  useEffect(()=>{
+    document.title='Products'
+    dispatch(getProductCat("All"))
+  },[])
+  
+  useEffect(()=>{
+    dispatch(sortProduct(sortCri))     
+  },[sortCri])
+
   return (
     <Container>
     <Navigation>
         <Column>
         <FilterHeading>Sort by Type</FilterHeading>
-        <Select>
+        <Select onChange={(e)=>setCategory(e.target.value)}>
          {Options}
          </Select>
         </Column>
         <Column>
           <FilterHeading>Sort by Pirce</FilterHeading>
-          <Select>
+          <Select onChange={(e)=>setSortCri(e.target.value)}>
             {PriceOptions}
           </Select>
         </Column>
     </Navigation>
-    {SampleProducts.map((product)=>{
-         return <Product key={product.id} product={product} />
+    {filteredProducts.map((product,index)=>{
+         return <Product key={index} product={product} />
     })}
    </Container>
   )

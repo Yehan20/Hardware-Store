@@ -3,8 +3,27 @@ import { CategoryItemType } from '../../types/types'
 import { ProductContainer, Image, ButtonContainer, Button } from './style'
 import { FaHeart, FaSearch, FaShoppingCart } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
+import { useAppDispatch } from '../../hooks/redux_selectors'
+import { addCart } from '../../slices/cartSlice'
+
 const Product = ({ product }: CategoryItemType) => {
- // console.log(product);
+
+  const dispatch = useAppDispatch();
+
+
+  const handleClick = ()=>{
+
+    const item = {
+      name:product?.name,
+      amount:1,
+      price:product?.price ,
+      img:product?.img,
+      category:product?.category,
+   }
+   
+   dispatch(addCart(item))
+  }
+
   return (
 
      <ProductContainer >
@@ -18,7 +37,7 @@ const Product = ({ product }: CategoryItemType) => {
         <Button title='Add to WishList'>
           <FaHeart />
         </Button>
-        <Button title='Add to Cart'>
+        <Button onClick={handleClick} title='Add to Cart'>
           <FaShoppingCart />
         </Button>
       </ButtonContainer>

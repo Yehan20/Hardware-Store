@@ -8,7 +8,10 @@ export type CategoryItemType={
     }
     product?:{
         _id:string,
-        img:string
+        img:string,
+        name:string,
+        category:string,
+        price:number
     }
 
 }
@@ -18,11 +21,12 @@ export type ColoumnProp={
 }
 
 export type SingleProductType={
-      _id:string,
+      _id?:string,
       img:string,
-      desc:string,
+      desc?:string,
+      category:string,
       price:number,
       name:string,
       color:string,
-      inStock:boolean,
+      inStock:boolean |string,
 }

@@ -6,7 +6,7 @@ interface ProductInterface {
       status:string,
       products:[],
       productCategory:SingleProductType[],
-      singleProduct:SingleProductType | ''
+      singleProduct:SingleProductType 
 }
 
 
@@ -36,7 +36,15 @@ export const getProductCat = createAsyncThunk('products/getCat',async(cat:string
 const productInitalState:ProductInterface = {
      status:'idle',
      products:[],
-     singleProduct:'',
+     singleProduct:{
+        img:'',
+        desc:'',
+        category:'',
+        price:0,
+        name:'',
+        color:'',
+        inStock:'',
+     },
      productCategory:[]
 }
 
