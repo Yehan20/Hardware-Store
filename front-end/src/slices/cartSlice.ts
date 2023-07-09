@@ -1,5 +1,7 @@
 import {createAsyncThunk,createSlice} from '@reduxjs/toolkit';
 import axios from 'axios';
+import { Cart } from '../types/types';
+
 
 interface CartTypes{
      total:{subtotal:number,discount:number,final:number};
@@ -10,6 +12,7 @@ interface CartTypes{
      status:string;
      notification:boolean;
      toastConfig:{color:'info'| 'success'| 'warning'| 'error'|'default',message:string},
+     toggleSet:boolean;
 }
 
 const InitialState:CartTypes={
@@ -26,7 +29,8 @@ const InitialState:CartTypes={
       toastConfig:{
         color:'default',
         message:''
-      }
+      },
+      toggleSet:false
       
 }
 
@@ -37,19 +41,23 @@ export const loadCart = createAsyncThunk('cart/get',async(id:string)=>{
     const cart = await axios.post(`${URL}get`,{
         userId:id
     })
-
+    console.log(cart.data);
     return cart.data;
 });
 
-const setCart = createAsyncThunk('cart/set',async(cart)=>{
+export const setCart = createAsyncThunk('cart/set',async(cartDetails:{cart:CartTypes[],id:string})=>{
+
+   console.log('method called',cartDetails.cart);
+
    const token  = localStorage.getItem('token');
    const newCartItems = await axios.post(`${URL}manage`,{
-      cart
+      cart:cartDetails.cart,id:cartDetails.id
    },{
     headers:{
         'Authorization':`Bearer ${token}`
     }
    })
+   console.log(newCartItems.data);
    return newCartItems.data
 });
 
@@ -100,6 +108,7 @@ const cartSlice = createSlice({
             color:'success',
             message:"Added to Cart"
            }
+           state.toggleSet = !state.toggleSet;
            
 
        
@@ -124,6 +133,61 @@ const cartSlice = createSlice({
         resetCartNotification(state){
             state.notification = false;
               
+        },
+        incrementItem(state,action){
+          const itemName = action.payload; // get the name
+          const updatedItems = state.cart.map((cartItem)=>{
+              if(cartItem.name===itemName){
+                 const newAmount = cartItem.amount + 1;
+                 const newPrice =  (cartItem.price / cartItem.amount) * newAmount;
+                 return {
+                    ...cartItem,amount:newAmount,price:newPrice
+                 }
+
+              }
+              return cartItem
+          })
+          state.cart = updatedItems;
+        },
+        decrementItem(state,action){
+            const itemName = action.payload; // get the name
+            const updatedItems = state.cart.map((cartItem)=>{
+
+                if(cartItem.name===itemName && cartItem.amount>1){
+
+                   const newAmount = cartItem.amount - 1;
+                   const newPrice =  (cartItem.price / cartItem.amount) * newAmount;
+                   return {
+                      ...cartItem,amount:newAmount,price:newPrice
+                   }
+  
+                }
+                return cartItem
+            })
+            state.cart = updatedItems;
+        },
+        removeItem(state,action){
+
+            const name = action.payload;
+            const newItems = state.cart.filter((item)=>item.name !== name);
+
+            state.toastConfig={
+                color:'error',
+                message:"Item Removed from cart"
+               }
+
+            state.cart = newItems;
+            state.notification = true;
+            state.totalamount = state.cart.length;
+
+
+        },
+        checkLogged(state){
+          state.notification=true;
+          state.toastConfig={
+             color:'warning',
+             message:'Sign In to make your payment'
+          }
         }
     },
     extraReducers:(builder)=>{
@@ -132,20 +196,29 @@ const cartSlice = createSlice({
          state.status = 'loading'
       })
       .addCase(loadCart.fulfilled,(state,action)=>{
+          console.log("payload",action.payload)
           state.status ='loaded'
           state.cart = action.payload.cart.cartItems;
           state.cartId = action.payload.cart._id;
-          state.userid=action.payload.cart.userId;
+          //state.userid=action.payload.cart.userId;
+          state.totalamount = state.cart.length;
       })
       .addCase(loadCart.rejected,(state,action)=>{
          state.status = 'failed to fetch'
       })
+      .addCase(setCart.pending,(state)=>{
+
+     })
       .addCase(setCart.fulfilled,(state,action)=>{
-         state.cart = action.payload.cart;
-         state.totalamount = state.cart.length;
+       
+        console.log(action.payload.cart);
+         state.cart = action.payload.cart.cartItems;
+         state.totalamount =action.payload.cart.cartItems.length;
       })
     }
 })
 
 export default cartSlice.reducer;
-export const {addCart,calculateTotal,resetCartNotification} = cartSlice.actions
+export const {addCart,calculateTotal,resetCartNotification,incrementItem,decrementItem,removeItem,
+              checkLogged
+} = cartSlice.actions

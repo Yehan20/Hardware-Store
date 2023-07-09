@@ -24,6 +24,8 @@ function App() {
   
   Store.dispatch(getProducts());
   Store.dispatch(getUser(token))
+
+ 
   
   const router = createBrowserRouter(
     createRoutesFromElements(

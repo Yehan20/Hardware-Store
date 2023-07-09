@@ -20,6 +20,14 @@ export type ColoumnProp={
      bg?:string
 }
 
+export type Cart={
+    img:string,
+    amount:number,
+    price:number,
+    name:string,
+    category:string
+}
+
 export type SingleProductType={
       _id?:string,
       img:string,

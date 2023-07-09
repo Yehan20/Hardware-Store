@@ -45,7 +45,8 @@ const Notfication = () => {
 
    // cart notification
    useEffect(()=>{
-      console.log(notification);
+      console.log(CartToastConfig);
+      
       if(!CartToastConfig.message || !notification ) return;
       
       toast(CartToastConfig.message,{
@@ -70,7 +71,7 @@ const Notfication = () => {
          dispatch(resetCartNotification())
          toast.dismiss()  
       }
-         ;
+         
    },[cart,notification])
 
 

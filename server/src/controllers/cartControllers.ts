@@ -1,13 +1,15 @@
 import {Request,Response,NextFunction} from 'express';
 import cart from '../model/cart';
+import { CustomRequest } from '../middlewares/verify_tokens';
 
 const manageCart =async(req:Request,res:Response,next:NextFunction)=>{
     // find the users whos cart belong
-    const {userId,cartItems} = req.body;
-    console.log(cartItems);
+    const {cart:Cart,id} = req.body;
+    console.log(Cart,id);
+ 
     try{
-      const  newCart = await cart.findOneAndUpdate({userId:userId},{
-         $set:{cartItems:cartItems}
+      const  newCart = await cart.findOneAndUpdate({userId:id},{
+         $set:{cartItems:Cart}
        },{new:true});
 
        res.json({cart:newCart}).status(200);

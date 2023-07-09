@@ -1,14 +1,17 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { CategoryItemType } from '../../types/types'
 import { ProductContainer, Image, ButtonContainer, Button } from './style'
 import { FaHeart, FaSearch, FaShoppingCart } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
-import { useAppDispatch } from '../../hooks/redux_selectors'
-import { addCart } from '../../slices/cartSlice'
+import { useAppDispatch, useAppSelector } from '../../hooks/redux_selectors'
+import { addCart, setCart } from '../../slices/cartSlice'
 
 const Product = ({ product }: CategoryItemType) => {
 
   const dispatch = useAppDispatch();
+  const {cart,status,toggleSet} = useAppSelector(state=>state.Cart)
+  const {user} = useAppSelector(state=>state.Auth)
+  const [mounted,setMounted] = useState(false);
 
 
   const handleClick = ()=>{
@@ -22,7 +25,17 @@ const Product = ({ product }: CategoryItemType) => {
    }
    
    dispatch(addCart(item))
+
+
+   setMounted(true)
+
   }
+  useEffect(()=>{
+    if(mounted){
+      console.log('set cart run');
+      dispatch(setCart({cart,id:user._id}))
+    }
+  },[toggleSet])
 
   return (
 

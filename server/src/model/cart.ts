@@ -15,7 +15,10 @@ interface cartInterface extends Document {
 
 const cartItemSchema = new Schema({
 
-        productName:{
+        name:{
+            type:String
+        },
+        category:{
             type:String
         },
         amount:{
@@ -25,7 +28,7 @@ const cartItemSchema = new Schema({
             type:Number,
             default:0
         },
-        image:{
+        img:{
             type:String
         }
     

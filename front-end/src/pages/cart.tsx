@@ -1,11 +1,15 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { Link } from 'react-router-dom';
 import styled from 'styled-components'
-import productImg from '../assets/images/product-1.jpg';
+import {FaTrashAlt} from 'react-icons/fa'
 import { FaPlus, FaMinus } from 'react-icons/fa'
 import * as BreakPoints from '../Responsive';
 import { useAppDispatch, useAppSelector } from '../hooks/redux_selectors';
-import { calculateTotal } from '../slices/cartSlice';
+import { calculateTotal, incrementItem,decrementItem, removeItem, checkLogged, loadCart } from '../slices/cartSlice';
+import StripeCheckout from 'react-stripe-checkout';
+import {setCart} from '../slices/cartSlice'
+import img from '../assets/images/Logo.png'
+
 
 
 type Clr = {
@@ -114,15 +118,26 @@ const CartItemPrice = styled.div`
   gap:1em;
 `;
 
-const Button = styled.div`
+const Button = styled.button`
+  background-color:transparent;
+  border:0;
   display:inline-block ;
-  font-size:1.2rem ;
+  font-size:1.1rem ;
+  vertical-align:center ;
+  cursor:pointer ;
+`
+const DeleteButton = styled.button`
+  background-color:transparent;
+  border:0;
+  display:inline-block ;
+  font-size:1.1rem ;
   vertical-align:center ;
   cursor:pointer ;
 `
 
+
 const Amount = styled.h3`
-   font-size:1.3rem;  
+   font-size:1.4rem;  
 `
 const Price = styled.h3`
  width:100% ;
@@ -136,19 +151,55 @@ const SummaryDesc = styled.p``;
 const CheckoutButton = styled.button``;
 
 // Discount
-
-
 const Cart = () => {
+
    const {cart,totalamount,total} = useAppSelector((state)=>state.Cart)
+   const {user} = useAppSelector((state)=>state.Auth)
    const dispatch = useAppDispatch();
 
+   //Get Cart
+
+
+   //Set Cart
    useEffect(() => {
-      document.title = 'Cart';
+
+       document.title = 'Cart';
        dispatch(calculateTotal())
-   }, [])
+     
+
+   }, [cart])
+
+   const increaseItem = (name:string)=>{
+       dispatch(incrementItem(name))
+   }
+
+   const decreaseItem  = (name:string)=>{
+       dispatch(decrementItem(name))
+   }
+
+   const handleDelete = (name:string)=>{
+       dispatch(removeItem(name));
+   }
+
+   const handleCheckout = ()=>{
+      if(!user){
+        dispatch(checkLogged())
+        return 
+      }
+   }
+   
+   let Key = import.meta.env.VITE_STRIPE_KEY
+
+      const onToken:any = (token: any) => {
+         // Handle the token here
+         console.log(token);
+      };
+   
    return (
       <Container>
+
          <Title>Your Cart</Title>
+
          <CartNav>
             <CartButton border='' text='white' clr='black' to={'/products'}>Continue Shopping</CartButton>
             <CartHeading>Shopping Bag ({totalamount})</CartHeading>
@@ -157,9 +208,8 @@ const Cart = () => {
          </CartNav>
 
          <CartDeatils>
-
             <CartItems>
-               {cart && cart.map((item,index)=>{
+               {cart.length>0 && cart.map((item,index)=>{
                   return(
                      <CartItem key={index}>
                         <Image src={item.img} alt='Image' />
@@ -169,14 +219,16 @@ const Cart = () => {
                               <Desc><Bold>Category</Bold> {item.category}</Desc>
                            </CartItemDetail>
                            <CartItemPrice>
-                              <Button><FaPlus/></Button>
+                              <Button title='Increase Amount' onClick={()=>increaseItem(item.name)}><FaPlus/></Button>
                               <Amount>{item.amount}</Amount>
-                              <Button><FaMinus /></Button>
+                              <Button title='Delete Amount' onClick={()=>decreaseItem(item.name)}><FaMinus /></Button>
                               <Price> රු {item.price}</Price>
                            </CartItemPrice>
                         </CartItemBody>
-                     </CartItem>
-               )
+                        <DeleteButton onClick={()=>handleDelete(item.name)} title='Remove Item'>
+                             <FaTrashAlt/>
+                        </DeleteButton>
+                  </CartItem>)
                })}
 
             </CartItems>
@@ -185,8 +237,25 @@ const Cart = () => {
                <SummaryHead>Summary</SummaryHead>
                <SummaryDesc>Subtotal <Bold>රු : {total.subtotal.toLocaleString()}</Bold></SummaryDesc>
                <SummaryDesc>Estimated Discount : <Bold>{total.discount}%</Bold></SummaryDesc>
-               <SummaryDesc>Total <Bold>රු : {total.final}</Bold></SummaryDesc>
-               <CheckoutButton>Checkout</CheckoutButton>
+               <SummaryDesc>Total <Bold>රු : {total.final.toLocaleString()}</Bold></SummaryDesc>
+
+               {/* {
+                  user ? <StripeCheckout 
+
+                  name='Tool Land' 
+                  image={img}
+                  amount= {total.final * 100} // cents
+                  description={`Your total is  ${total.final} `}
+                  currency='LKR'
+                  stripeKey={Key}
+                  shippingAddress
+                  billingAddress
+                  token={onToken}>
+
+                <CheckoutButton>Pay now</CheckoutButton>
+                </StripeCheckout> : <CheckoutButton onClick={handleCheckout}>Checkout</CheckoutButton>
+               } */}
+
             </CartSummary>
 
          </CartDeatils>

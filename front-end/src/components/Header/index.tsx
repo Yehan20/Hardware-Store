@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Container, TitleHeader, Left, Right, HeaderButton, HeaderText, FirstHeaderSection, SecondHeaderSection, ThirdHeaderSection, SearchContainer, Search, SearchButton, HeaderPara, Menu } from './styled'
 import { FaChevronDown ,FaSearch} from 'react-icons/fa'
 import Navigation from '../Navigation'
@@ -7,12 +7,20 @@ import Notfication from '../Notifcation'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux_selectors'
 import useCustomRef from '../../hooks/useCustomRef'
 import { logout } from '../../slices/authSlice'
+import { loadCart } from '../../slices/cartSlice'
 const Header = () => {
   const user = useAppSelector(user=>user.Auth.user)
   const [show,setShow] = useState(false);
   
   const menuRef = useRef(null)
   const dispatch  =useAppDispatch();
+
+  useEffect(()=>{
+    // if user Exists Load ther
+    if(user){
+      dispatch(loadCart(user._id))   
+    }
+ },[])
 
   useCustomRef(menuRef,()=>{
       setShow(false);
