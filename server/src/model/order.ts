@@ -4,19 +4,28 @@ interface orderInterface extends Document{
   userId:string;
   total:number;
   address:{
-     street:string,
+     country:string,
      city:string,
-     number:string
+     number?:string
   }
 }
 
 
 const productSchema = new Schema({
-     productName:{
+     name:{
         type:String
      },
      amount:{
         type:Number
+     },
+     category:{
+      type:String,
+     },
+     price:{
+      type:Number
+     },
+     img:{
+      type:String
      }
 })
 

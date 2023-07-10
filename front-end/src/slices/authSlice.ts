@@ -8,7 +8,7 @@ type AuthSliceTypes = {
       name:string,
       token:string
       _id:string
-   }|'',
+   },
    status:string,
    error:string,
    loading:boolean,
@@ -17,7 +17,11 @@ type AuthSliceTypes = {
 }
 
 const initialState:AuthSliceTypes={
-    user:'',
+    user:{
+      name:'',
+      token:'',
+      _id:''
+    },
     status:'idle',
     error:'',
     toastConfig:{
@@ -70,22 +74,22 @@ export const getUser = createAsyncThunk('auth/getUser',async(token:string)=>{
           'Authorization':`bearer ${token}`
         }
      })
-
-    // console.log(isLogged.data);
      return isLogged.data;
      
 })
 
-// export const logout = createAsyncThunk('auth/login',async()=>{
-    
-// })
+
 
 const AuthSlice = createSlice({
      name:'Auth',
      initialState:initialState,
      reducers:{
        logout(state){
-         state.user='';
+         state.user={
+            name:'',
+            token:'',
+            _id:''
+          };
          localStorage.removeItem('token');
          state.toastConfig.color='info';
          state.toastConfig.message ='You are Logged out'
@@ -124,6 +128,9 @@ const AuthSlice = createSlice({
           }
 
        })
+       .addCase(getUser.pending,(state,action)=>{
+          state.loading = true;
+       })
        .addCase(getUser.fulfilled,(state,action)=>{
            console.log(action.payload);
            if(action.payload.user){
@@ -131,7 +138,11 @@ const AuthSlice = createSlice({
               state.loading = false
            }
            else {
-            state.user = ''
+            state.user={
+               name:'',
+               token:'',
+               _id:''
+             };
             state.loading = false;
            }
 

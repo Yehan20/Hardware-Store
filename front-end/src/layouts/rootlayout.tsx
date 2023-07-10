@@ -16,15 +16,16 @@ const RootLayout = () => {
   
   // get cart code
   const {user,error,loading} = useAppSelector((state)=>state.Auth)
-  const {cartId,cart}= useAppSelector((state)=>state.Cart)
 
+
+  // console.log(user)
   
   useEffect(()=>{
 
    //if user exists and cart Id is not there  only run this codes
-   if(user && !cartId){
+   if(user.name!=='' ){
      // get your cart
-     console.log('run');
+     console.log('run load cart');
      dispatch(loadCart(user._id))
     
    

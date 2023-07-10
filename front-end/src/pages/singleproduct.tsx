@@ -7,7 +7,7 @@ import { useAppDispatch, useAppSelector } from '../hooks/redux_selectors';
 import { getSingleProduct } from '../slices/productSlice';
 import { useParams } from 'react-router';
 import { SingleProductType } from '../types/types';
-import { addCart } from '../slices/cartSlice';
+import { addCart, setCart } from '../slices/cartSlice';
 
 const Container= styled.div`
  display:flex ;
@@ -92,12 +92,14 @@ const Color = styled.div`
 const SingleProduct = () => {
 
   const product = useAppSelector(state=>state.Products.singleProduct)
-
+  const {cart} = useAppSelector(state=>state.Cart)
+  const {user} = useAppSelector(state=>state.Auth)
 
   const {id}  = useParams();
   const dispatch = useAppDispatch()
 
   const [amount,setAmout] = useState(1)
+  const [mounted,setMount] = useState(false);
 
   const handleClick = ()=>{
       //create an cartItem Object
@@ -109,6 +111,7 @@ const SingleProduct = () => {
          category:product.category
       }
       dispatch(addCart(item));
+      setMount(true);
   }
 
   useEffect(()=>{
@@ -120,8 +123,15 @@ const SingleProduct = () => {
 
      dispatch(getSingleProduct(id as string))
      document.title='Product'
-   
   },[])
+
+
+  useEffect(()=>{
+    if(mounted){
+      console.log('set cart run');
+      dispatch(setCart({cart,id:user._id}))
+    }
+  },[cart])
 
 
   return (

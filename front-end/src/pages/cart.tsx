@@ -1,15 +1,20 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
 import styled from 'styled-components'
 import {FaTrashAlt} from 'react-icons/fa'
 import { FaPlus, FaMinus } from 'react-icons/fa'
 import * as BreakPoints from '../Responsive';
 import { useAppDispatch, useAppSelector } from '../hooks/redux_selectors';
-import { calculateTotal, incrementItem,decrementItem, removeItem, checkLogged, loadCart } from '../slices/cartSlice';
+import { calculateTotal, incrementItem,decrementItem, removeItem, checkLogged, loadCart, clearCart, emptyCart } from '../slices/cartSlice';
 import StripeCheckout from 'react-stripe-checkout';
 import {setCart} from '../slices/cartSlice'
 import img from '../assets/images/Logo.png'
+import axios from 'axios';
 
+const stripeCheckoutSpan = document.querySelector('.StripeCheckout span');
+if (stripeCheckoutSpan) {
+  stripeCheckoutSpan.textContent = 'Pay';
+}
 
 
 type Clr = {
@@ -148,52 +153,112 @@ const Price = styled.h3`
 //  summary
 const SummaryHead = styled.h3``;
 const SummaryDesc = styled.p``;
-const CheckoutButton = styled.button``;
+const CheckoutButton = styled.button`
+  background:rgb(255, 93, 0);
+  color:#fff;
+  border:0;
+  padding:0.5em 1em;
+  &:hover{
+    opacity:0.7;
+  }
+`;
 
 // Discount
 const Cart = () => {
+
+   let Key = import.meta.env.VITE_STRIPE_KEY
 
    const {cart,totalamount,total} = useAppSelector((state)=>state.Cart)
    const {user} = useAppSelector((state)=>state.Auth)
    const dispatch = useAppDispatch();
 
-   //Get Cart
-
+   const [token,setToken] = useState<any>();
+   const [mounted,setMounted] = useState(false);
 
    //Set Cart
-   useEffect(() => {
 
-       document.title = 'Cart';
-       dispatch(calculateTotal())
-     
+   useEffect(()=>{
+      document.title = 'Cart';
+   },[])
 
-   }, [cart])
 
    const increaseItem = (name:string)=>{
+       setMounted(true)
        dispatch(incrementItem(name))
    }
 
    const decreaseItem  = (name:string)=>{
+       setMounted(true)
        dispatch(decrementItem(name))
    }
 
    const handleDelete = (name:string)=>{
+       setMounted(true)
        dispatch(removeItem(name));
    }
 
    const handleCheckout = ()=>{
-      if(!user){
+      if(!user.name){
         dispatch(checkLogged())
         return 
       }
    }
-   
-   let Key = import.meta.env.VITE_STRIPE_KEY
 
-      const onToken:any = (token: any) => {
-         // Handle the token here
+   const handleClearCart = ()=>{
+       setMounted(true);
+       dispatch(emptyCart())
+   }
+
+   useEffect(()=>{
+      if(mounted){
+        console.log('set cart run');
+        dispatch(setCart({cart,id:user._id}))
+      }
+    },[cart])
+
+    useEffect(()=>{
+      if(mounted && cart.length<1){
+        console.log('set cart run');
+        dispatch(clearCart(user._id))
+      }
+    },[cart])
+
+    useEffect(() => {
+      dispatch(calculateTotal())
+    }, [cart])
+
+    const onToken = (token:any) => {
+         // You can receive hint from token type here
          console.log(token);
-      };
+         setToken(token)
+        
+    }
+
+    useEffect(()=>{
+       const makePayment=async()=>{
+
+         try{
+            const reponse = await axios.post('http://localhost:3001/stripe/pay',{
+               tokenId:token.id,
+               amount:total.subtotal * 100,
+               price:total.subtotal,
+               userId:user._id,
+               items:cart,
+               address:{
+                  city:token.address_city,
+                  country:token.address_country
+               }
+           })
+           console.log(reponse.data)
+         }catch(e:unknown){
+            if(e instanceof Error){
+               console.log(e.message);
+            }
+
+         }
+       }
+       token && makePayment();
+    },[token])
    
    return (
       <Container>
@@ -203,7 +268,7 @@ const Cart = () => {
          <CartNav>
             <CartButton border='' text='white' clr='black' to={'/products'}>Continue Shopping</CartButton>
             <CartHeading>Shopping Bag ({totalamount})</CartHeading>
-            <CartHeading>Your Wish List</CartHeading>
+            <CheckoutButton onClick={handleClearCart}>Clear Cart</CheckoutButton>
             <CartButton border='grey' text='black' clr='white' to={'/'}>Checkout</CartButton>
          </CartNav>
 
@@ -239,22 +304,23 @@ const Cart = () => {
                <SummaryDesc>Estimated Discount : <Bold>{total.discount}%</Bold></SummaryDesc>
                <SummaryDesc>Total <Bold>රු : {total.final.toLocaleString()}</Bold></SummaryDesc>
 
-               {/* {
-                  user ? <StripeCheckout 
+               {
+                  user.name ? 
+                  
+                  <StripeCheckout 
 
                   name='Tool Land' 
                   image={img}
                   amount= {total.final * 100} // cents
-                  description={`Your total is  ${total.final} `}
+                  description={`Your total is  RS : ${total.final.toLocaleString()} `}
                   currency='LKR'
                   stripeKey={Key}
                   shippingAddress
                   billingAddress
-                  token={onToken}>
-
-                <CheckoutButton>Pay now</CheckoutButton>
-                </StripeCheckout> : <CheckoutButton onClick={handleCheckout}>Checkout</CheckoutButton>
-               } */}
+                  token={onToken}/>:
+                
+                <CheckoutButton onClick={handleCheckout}>Checkout</CheckoutButton>
+               }
 
             </CartSummary>
 

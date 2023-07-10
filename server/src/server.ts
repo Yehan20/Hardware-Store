@@ -9,6 +9,7 @@ import userRouter from './routes/userRoutes';
 import productRouter from './routes/productRoutes';
 import cartRouter from './routes/cartRoutes';
 import orderRouter from './routes/orderRoutes'
+import stripeRouter from './routes/stripeRoutes';
 
 dotenv.config();
 
@@ -45,5 +46,7 @@ app.get('/ping',(req,res)=>{
 app.use('/user',userRouter);
 app.use('/products',productRouter);
 app.use('/cart',cartRouter);
-app.use('/order',orderRouter)
+app.use('/orders',orderRouter)
+app.use('/stripe',stripeRouter);
+
 

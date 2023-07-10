@@ -1,6 +1,6 @@
 import {createAsyncThunk,createSlice} from '@reduxjs/toolkit';
 import axios from 'axios';
-import { Cart } from '../types/types';
+
 
 
 interface CartTypes{
@@ -12,7 +12,6 @@ interface CartTypes{
      status:string;
      notification:boolean;
      toastConfig:{color:'info'| 'success'| 'warning'| 'error'|'default',message:string},
-     toggleSet:boolean;
 }
 
 const InitialState:CartTypes={
@@ -30,19 +29,26 @@ const InitialState:CartTypes={
         color:'default',
         message:''
       },
-      toggleSet:false
+   
       
 }
 
 const URL = 'http://localhost:3001/cart/'
 
 export const loadCart = createAsyncThunk('cart/get',async(id:string)=>{
+    
+    if(!id)return 
+    try{
+        const cart = await axios.post(`${URL}get`,{
+            userId:id
+        })
+        console.log(cart.data);
+        return cart.data;
+    }catch(e:any){
+        console.log(e);
+         console.log(e.message);
+    }
 
-    const cart = await axios.post(`${URL}get`,{
-        userId:id
-    })
-    console.log(cart.data);
-    return cart.data;
 });
 
 export const setCart = createAsyncThunk('cart/set',async(cartDetails:{cart:CartTypes[],id:string})=>{
@@ -50,19 +56,27 @@ export const setCart = createAsyncThunk('cart/set',async(cartDetails:{cart:CartT
    console.log('method called',cartDetails.cart);
 
    const token  = localStorage.getItem('token');
-   const newCartItems = await axios.post(`${URL}manage`,{
+   await axios.post(`${URL}manage`,{
       cart:cartDetails.cart,id:cartDetails.id
    },{
     headers:{
         'Authorization':`Bearer ${token}`
     }
    })
-   console.log(newCartItems.data);
-   return newCartItems.data
+
+   return true
 });
 
-const clearCart = createAsyncThunk('cart/clear',async()=>{
-
+export const clearCart = createAsyncThunk('cart/clear',async(userId:string)=>{
+    const token  = localStorage.getItem('token');
+    axios.post(`${URL}clear`,{
+        userId
+    },{
+        headers:{
+            'Authorization':`Bearer ${token}`
+        }
+    })
+    return true
 })
 
 
@@ -108,9 +122,6 @@ const cartSlice = createSlice({
             color:'success',
             message:"Added to Cart"
            }
-           state.toggleSet = !state.toggleSet;
-           
-
        
         },
         calculateTotal(state){
@@ -148,6 +159,7 @@ const cartSlice = createSlice({
               return cartItem
           })
           state.cart = updatedItems;
+       
         },
         decrementItem(state,action){
             const itemName = action.payload; // get the name
@@ -165,6 +177,7 @@ const cartSlice = createSlice({
                 return cartItem
             })
             state.cart = updatedItems;
+          
         },
         removeItem(state,action){
 
@@ -179,6 +192,7 @@ const cartSlice = createSlice({
             state.cart = newItems;
             state.notification = true;
             state.totalamount = state.cart.length;
+          
 
 
         },
@@ -188,6 +202,16 @@ const cartSlice = createSlice({
              color:'warning',
              message:'Sign In to make your payment'
           }
+    
+        },
+        emptyCart(state){
+             state.cart = [];
+             state.toastConfig={
+                 message:'Cart Empty',
+                 color:'warning' 
+             }
+             state.notification = true;
+             state.totalamount = state.cart.length;
         }
     },
     extraReducers:(builder)=>{
@@ -196,29 +220,28 @@ const cartSlice = createSlice({
          state.status = 'loading'
       })
       .addCase(loadCart.fulfilled,(state,action)=>{
-          console.log("payload",action.payload)
-          state.status ='loaded'
-          state.cart = action.payload.cart.cartItems;
-          state.cartId = action.payload.cart._id;
-          //state.userid=action.payload.cart.userId;
-          state.totalamount = state.cart.length;
+  
+          if(action.payload){
+          return {
+            ...state,status:'loaded',
+                    cart:action.payload.cart.cartItems,
+                    cartId:action.payload.cart._id,
+                    totalamount:state.cart.length
+          }
+        }
       })
       .addCase(loadCart.rejected,(state,action)=>{
          state.status = 'failed to fetch'
       })
       .addCase(setCart.pending,(state)=>{
-
+         state.status  =' pedning'
      })
       .addCase(setCart.fulfilled,(state,action)=>{
-       
-        console.log(action.payload.cart);
-         state.cart = action.payload.cart.cartItems;
-         state.totalamount =action.payload.cart.cartItems.length;
       })
     }
 })
 
 export default cartSlice.reducer;
 export const {addCart,calculateTotal,resetCartNotification,incrementItem,decrementItem,removeItem,
-              checkLogged
+              checkLogged,emptyCart
 } = cartSlice.actions

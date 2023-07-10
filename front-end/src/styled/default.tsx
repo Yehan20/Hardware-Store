@@ -8,6 +8,32 @@ export const GlobalStyles = createGlobalStyle`
     --toastify-text-color-light: #000;
     
    }
+   
+   .StripeCheckout{
+     background:rgb(255, 93, 0) !important;
+      color:#fff;
+      border:0 !important;
+      padding:0.5em 1em;
+      &:hover{
+        opacity:0.7;
+      }
+      border-radius:0 !important;
+   }
+
+   .StripeCheckout span{
+      background-image:none !important;
+      background:rgb(255, 93, 0);
+      color:#fff;
+      border:0 !important;
+      padding:0.5em 1em;
+      box-shadow: 0 !important;
+      text-shadow: 0 !important;
+      border-radius: 0 !important;
+      &:hover{
+        opacity:0.7;
+      }
+      font-family:'Poppins',sans-serif !important;
+   }
 
    .toastify{
      font-family:'Poppins',sans-serif !important;

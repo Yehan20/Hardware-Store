@@ -16,6 +16,9 @@ import { getProducts } from "./slices/productSlice"
 import { getUser } from "./slices/authSlice"
 
 import 'react-toastify/dist/ReactToastify.css';
+import Order from './pages/order'
+import PrivateRoute from './private/privateroute'
+import Search from './pages/search'
 
 
 function App() {
@@ -30,6 +33,7 @@ function App() {
   const router = createBrowserRouter(
     createRoutesFromElements(
        <Route path="/" element={<RootLayout/>}>
+
           <Route index element={<Home/>}/>
           <Route path="register" element={<Register/>}/>
 
@@ -40,7 +44,10 @@ function App() {
             <Route path="type/:type" element={<ProductsCategory/>}/>
             <Route path="product/:id" element={<SingleProduct/>}/>
           </Route>
+
           <Route path="cart" element={<Cart/>}/>
+          <Route path="order" element={<PrivateRoute><Order/></PrivateRoute>}/>
+          <Route path='search/:query' element={<Search/>} />
        </Route>
     )
   )

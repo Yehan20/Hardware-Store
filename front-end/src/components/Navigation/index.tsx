@@ -22,8 +22,8 @@ const Navigation = () => {
   return (
     <Nav>
         <Ul>
-            {user && <Li>Hello {user.name}</Li>}
-            {!user && <>
+            {user.name && <Li>Hello {user.name}</Li>}
+            {!user.name && <>
                 <Li>
                     <Link to='/register'> Register </Link>
                 </Li>

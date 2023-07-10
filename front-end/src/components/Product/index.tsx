@@ -9,7 +9,7 @@ import { addCart, setCart } from '../../slices/cartSlice'
 const Product = ({ product }: CategoryItemType) => {
 
   const dispatch = useAppDispatch();
-  const {cart,status,toggleSet} = useAppSelector(state=>state.Cart)
+  const {cart} = useAppSelector(state=>state.Cart)
   const {user} = useAppSelector(state=>state.Auth)
   const [mounted,setMounted] = useState(false);
 
@@ -35,7 +35,7 @@ const Product = ({ product }: CategoryItemType) => {
       console.log('set cart run');
       dispatch(setCart({cart,id:user._id}))
     }
-  },[toggleSet])
+  },[cart])
 
   return (
 
