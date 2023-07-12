@@ -32,6 +32,7 @@ const makePayment = async(req:Request,res:Response)=>{
             total:totalPrice,
             products:items,
             address:address,
+            recipt:charge.receipt_url
         });
 
         res.json({order:newOrder,charge}).status(200)

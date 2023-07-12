@@ -1,0 +1,36 @@
+.header{
+ 
+    width: 100%;
+
+}
+h1{
+    font-family: 'Rajdhani',sans-serif;
+}
+header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.header img {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+}
+.header h1{
+    margin: 0;
+    /* font-size: 1.3rem; */
+}
+.right-section{
+    display: flex;
+    align-items: center;
+    gap: 1em;
+}
+.topbarIconContainer{
+    position: relative;
+    display: flex;
+}
+.topbarIconContainer span{
+    position: absolute;
+    top:-1em;
+    left: -0.5em;   
+}

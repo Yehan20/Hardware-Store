@@ -8,7 +8,7 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-const KEY = process.env.SECRET_KEY||'';
+// const KEY = process.env.SECRET_KEY||'';
 
 const register =async(req:Request,res:Response)=>{
 
@@ -65,6 +65,28 @@ const login =async(req:Request,res:Response)=>{
     }
 }
 
+const adminLogin =async(req:Request,res:Response)=>{
+
+  const {username,password:pwd} = req.body;
+
+  try{
+     const user = await userModel.Login(username,pwd);
+     if(!user.isAdmin){
+      res.status(400).json({message:'You are not an Admin'})
+     }
+     const token = genToken(user.name,user.isAdmin);
+     const {password,...rest} = user._doc;
+     rest.token = token;
+     res.status(200).json({user:rest});
+
+  }catch(e:unknown){
+    if(e instanceof Error){
+       res.status(400).json({message:e.message})
+    }
+  }
+}
+
+
 const getUser = async(req:CustomRequest,res:Response)=>{
   const user = req.user;
   console.log('user from the middle where',user);
@@ -83,7 +105,7 @@ const getUser = async(req:CustomRequest,res:Response)=>{
 const viewUsers = async(req:Request,res:Response)=>{
 
     try{
-      const  allUsers = await userModel.find({});
+      const  allUsers = await userModel.find({}).sort({createdAt:-1});
       res.json({users:allUsers}).status(200);
     }catch(e:unknown){
       if(e instanceof Error){
@@ -92,5 +114,5 @@ const viewUsers = async(req:Request,res:Response)=>{
     }
 }  
 export default {
-     register,login,viewUsers,getUser
+     register,login,viewUsers,getUser,adminLogin
 }

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components'
 import {FaTrashAlt} from 'react-icons/fa'
 import { FaPlus, FaMinus } from 'react-icons/fa'
@@ -169,13 +169,14 @@ const Cart = () => {
    let Key = import.meta.env.VITE_STRIPE_KEY
 
    const {cart,totalamount,total} = useAppSelector((state)=>state.Cart)
+   console.log(cart);
    const {user} = useAppSelector((state)=>state.Auth)
+   const navigate = useNavigate();
    const dispatch = useAppDispatch();
 
    const [token,setToken] = useState<any>();
    const [mounted,setMounted] = useState(false);
 
-   //Set Cart
 
    useEffect(()=>{
       document.title = 'Cart';
@@ -208,27 +209,33 @@ const Cart = () => {
        setMounted(true);
        dispatch(emptyCart())
    }
+   
 
+   // when we change the cart this run
    useEffect(()=>{
       if(mounted){
         console.log('set cart run');
         dispatch(setCart({cart,id:user._id}))
       }
     },[cart])
+     
 
+    // when we empty cart this run
     useEffect(()=>{
       if(mounted && cart.length<1){
         console.log('set cart run');
         dispatch(clearCart(user._id))
       }
     },[cart])
-
+    
+    // each change in cart trigger this 
     useEffect(() => {
       dispatch(calculateTotal())
     }, [cart])
 
     const onToken = (token:any) => {
          // You can receive hint from token type here
+         if(!token)return 
          console.log(token);
          setToken(token)
         
@@ -236,26 +243,40 @@ const Cart = () => {
 
     useEffect(()=>{
        const makePayment=async()=>{
+         const jwtToken = localStorage.getItem('token');
+         const currentCart = cart;
 
-         try{
-            const reponse = await axios.post('http://localhost:3001/stripe/pay',{
-               tokenId:token.id,
-               amount:total.subtotal * 100,
-               price:total.subtotal,
-               userId:user._id,
-               items:cart,
-               address:{
-                  city:token.address_city,
-                  country:token.address_country
+         await dispatch(clearCart(user._id))
+       
+
+      
+            try{
+               const response = await axios.post('http://localhost:3001/stripe/pay',{
+                  tokenId:token.id,
+                  amount:total.final * 100,
+                  price:total.final,
+                  userId:user._id,
+                  items:currentCart,
+                  address:{
+                     city:token.address_city,
+                     country:token.address_country
+                  }
+              },{
+               headers:{
+                  'Authorization':`Bearer ${jwtToken}`
                }
-           })
-           console.log(reponse.data)
-         }catch(e:unknown){
-            if(e instanceof Error){
-               console.log(e.message);
+              })
+              dispatch(emptyCart())
+              navigate('/success',{state:{data:response.data}})
+            }catch(e:unknown){
+               if(e instanceof Error){
+                  console.log(e.message);
+               }
+   
             }
+         
 
-         }
+
        }
        token && makePayment();
     },[token])
@@ -303,8 +324,7 @@ const Cart = () => {
                <SummaryDesc>Subtotal <Bold>රු : {total.subtotal.toLocaleString()}</Bold></SummaryDesc>
                <SummaryDesc>Estimated Discount : <Bold>{total.discount}%</Bold></SummaryDesc>
                <SummaryDesc>Total <Bold>රු : {total.final.toLocaleString()}</Bold></SummaryDesc>
-
-               {
+               {token ? <span>Processing ....</span>:(
                   user.name ? 
                   
                   <StripeCheckout 
@@ -320,8 +340,7 @@ const Cart = () => {
                   token={onToken}/>:
                 
                 <CheckoutButton onClick={handleCheckout}>Checkout</CheckoutButton>
-               }
-
+                )}
             </CartSummary>
 
          </CartDeatils>

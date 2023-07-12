@@ -1,0 +1,51 @@
+aside{
+    padding-left: 3em;
+    padding-top: 1em;
+    padding-bottom: 1em;
+    width: 25%;
+    min-height: 78vh;
+    border-right: 1px solid #ccc;
+    background-color:#FFFFF7 ;
+}
+aside h3{
+    margin: 0;
+    color:#ccc;
+    font-size: 1.2rem;
+    font-family: 'Rajdhani',sans-serif;
+}
+a.active{
+    color:orangered;
+}
+.active{
+    color: orangered;
+}
+.logout{
+    background-color: transparent;
+    border:0;
+    outline: 0;
+    font-family: 'Poppins',sans-serif;
+    font-size: 1rem;
+    cursor: pointer;
+}
+.logout:hover{
+    color:orangered;
+}
+ul{
+    list-style: none;
+    padding-left: 0em;
+    margin-bottom: 2em;
+}
+li{
+    margin-bottom: 1em;
+    display: flex;
+    align-items: center;
+}
+a{
+    text-decoration: none;
+    color:#000;
+    display:inline-block;
+    margin-left: 5px;
+}
+a:hover{
+    color:orangered;
+}

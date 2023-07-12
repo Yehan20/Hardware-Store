@@ -1,11 +1,13 @@
-import styled from "styled-components"
-import { useAppDispatch, useAppSelector } from "../hooks/redux_selectors";
-import { useEffect,useState } from "react";
-import { clearHistory, clearOrders, getOrders } from "../slices/orderSlice";
-import {Andriod,TabVertical} from '../Responsive'
-import { Link } from "react-router-dom";
+import React, { useEffect } from 'react'
+import { useAppDispatch, useAppSelector } from '../hooks/redux_selectors';
+import { allOrders } from '../slices/orderSlice';
+import styled from 'styled-components';
+import { Andriod, TabVertical } from '../Responsive';
+import { Link } from 'react-router-dom';
+
 const Container = styled.div`
-  padding:2em 5em;
+
+  width:100%;
   ${TabVertical({padding:'2em 2em'})};
 `;
 const Title  = styled.h2`
@@ -14,7 +16,7 @@ const Title  = styled.h2`
 const Button = styled.button``;
 const Table = styled.table`
   border-collapse: collapse;
-  width: 100%;
+  width: 95%;
   margin-top:1em;
 `;
 const Thead = styled.thead``;
@@ -30,14 +32,15 @@ const Th = styled.th`
   text-align: left;
   border-bottom: 1px solid #ddd;
   background-color: #f2f2f2;
-  font-family:'Poppins',sans-serif;
+  font-family:'Rajdhani',sans-serif;
   ${Andriod({display:"none"})};
+  font-size:0.9rem;
 `;
 const Td = styled.td`
   padding: 8px;
   text-align: left;
   border-bottom: 1px solid #ddd;
-  background-color: #f2f2f2;
+  /* background-color: #f7f7f7; */
   font-family:'Poppins',sans-serif;
   ${Andriod({display:"block",width:'100%'})};
 `;
@@ -59,36 +62,23 @@ const Image = styled.img`
  width:40px ;
  height:40px;
 `
-const Desc = styled.h5``
-const Order = () => {
- const {user} = useAppSelector((state)=>state.Auth);
- const {orders} = useAppSelector((state)=>state.Order)
- const [mount,setMount] = useState(false);
- const dispatch = useAppDispatch();
- useEffect(()=>{
-     dispatch(getOrders(user._id));
- },[])
+const Desc = styled.p``
 
- const handleClear = () =>{
-     setMount(true)
-     dispatch(clearHistory())
-
- }
-
- useEffect(()=>{
-    if(mount){
-     dispatch(clearOrders(user._id))
-    }
- },[orders])
- console.log(orders)
-  return <Container>
-            <Title>Orders</Title>
-            <Button onClick={handleClear}>Clear History</Button>
-                <Table>
+const Orders = () => {
+    const dispatch = useAppDispatch();
+    const { orders } = useAppSelector((state) => state.Order)
+    console.log(orders);
+    useEffect(() => {
+        const token = localStorage.getItem('adminToken') 
+        dispatch(allOrders(token as string))
+    }, [])
+  return (
+    <Container>
+             <Table>
             <Thead>
                 <Tr>
                 <Th>
-                    Number
+                    User Id
                     </Th> 
                     <Th>
                         Ordered Items
@@ -105,7 +95,7 @@ const Order = () => {
             <Tbody>
                {orders && orders.map((order,index)=>{
                   return <Tr  key={order._id}>
-                      <Td>{index +1 }</Td>
+                      <Td>{order.userId }</Td>
                       <Td>
                         <Row>
                         {order.products.map((product:any,index:number)=>{
@@ -123,7 +113,8 @@ const Order = () => {
                })}
             </Tbody>
         </Table>
-  </Container>
+    </Container>
+  )
 }
 
-export default Order
+export default Orders

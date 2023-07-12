@@ -78,7 +78,7 @@ const Login = () => {
   }
 
   useEffect(()=>{
-     if(user){
+     if(user.name){
         localStorage.setItem('token',user.token);
         navgiate('/');
      }

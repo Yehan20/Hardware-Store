@@ -8,6 +8,7 @@ interface orderInterface extends Document{
      city:string,
      number?:string
   }
+  recipt:string
 }
 
 
@@ -42,7 +43,11 @@ const orderSchema = new Schema({
        city:String,
        number:String
     }
-})
+    ,
+    recipt:{
+      type:String,
+    }
+},{timestamps:true})
 
 export default model<orderInterface>("orders",orderSchema);
 

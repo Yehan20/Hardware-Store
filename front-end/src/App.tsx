@@ -19,6 +19,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Order from './pages/order'
 import PrivateRoute from './private/privateroute'
 import Search from './pages/search'
+import Success from './pages/success'
 
 
 function App() {
@@ -48,6 +49,7 @@ function App() {
           <Route path="cart" element={<Cart/>}/>
           <Route path="order" element={<PrivateRoute><Order/></PrivateRoute>}/>
           <Route path='search/:query' element={<Search/>} />
+          <Route path='success' element={<Success/>} />
        </Route>
     )
   )

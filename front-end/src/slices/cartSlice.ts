@@ -226,7 +226,7 @@ const cartSlice = createSlice({
             ...state,status:'loaded',
                     cart:action.payload.cart.cartItems,
                     cartId:action.payload.cart._id,
-                    totalamount:state.cart.length
+                    totalamount:action.payload.cart.cartItems.length
           }
         }
       })
@@ -237,6 +237,9 @@ const cartSlice = createSlice({
          state.status  =' pedning'
      })
       .addCase(setCart.fulfilled,(state,action)=>{
+      })
+      .addCase(clearCart.fulfilled,(state,action)=>{
+           state.totalamount =0
       })
     }
 })

@@ -5,7 +5,7 @@ const router =  express.Router();
 
 router.post('/add', verifyToken,orderController.addOrder)
 router.post('/view',verifyToken,orderController.veiwOrders)
-router.get('/viewAll',verifyTokenAdmin, orderController.addOrder)
+router.get('/viewAll',verifyTokenAdmin, orderController.viewAllOrders)
 router.post('/sales',verifyTokenAdmin, orderController.addOrder)
 router.post('/clear',verifyToken,orderController.clearOrders)
 

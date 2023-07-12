@@ -63,12 +63,17 @@ const Notfication = () => {
         
     
       })
-      setTimeout(()=>{
+      const rest = setInterval(()=>{
          dispatch(resetCartNotification())
       },2000)
+      // setTimeout(()=>{
+     
+      //    // toast.dismiss()  
+      // },2000)
 
       return ()=>{
          dispatch(resetCartNotification())
+         clearInterval(rest)
          toast.dismiss()  
       }
          
