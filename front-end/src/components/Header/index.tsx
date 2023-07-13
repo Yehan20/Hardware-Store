@@ -7,7 +7,7 @@ import Notfication from '../Notifcation'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux_selectors'
 import useCustomRef from '../../hooks/useCustomRef'
 import { logout } from '../../slices/authSlice'
-import { loadCart } from '../../slices/cartSlice'
+import { emptyCart, loadCart } from '../../slices/cartSlice'
 
 const Header = () => {
   const user = useAppSelector(user=>user.Auth.user)
@@ -20,7 +20,7 @@ const Header = () => {
 
   useEffect(()=>{
     // if user Exists Load ther
-    if(user){
+    if(user.name){
       dispatch(loadCart(user._id))   
     }
  },[])
@@ -31,6 +31,7 @@ const Header = () => {
 
   const handleLogout = ()=>{
        dispatch(logout());
+       dispatch(emptyCart())
        setShow(false)
   }
   const handleClick = ()=>{
@@ -44,7 +45,7 @@ const Header = () => {
      <button onClick={handleLogout}>Logout</button>
   </Menu>
   return (
-    <Container>
+    <Container >
 
       <FirstHeaderSection>
         <Left><TitleHeader><Link to={'/'}>Tools Suppliers</Link></TitleHeader></Left>

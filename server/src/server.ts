@@ -13,7 +13,7 @@ import stripeRouter from './routes/stripeRoutes';
 
 dotenv.config();
 
-const mongoURL = process.env.MONGO_URL || '';
+const mongoURL = process.env.MONGO_DB_ATLAS || '';
 
 const app = express();
 

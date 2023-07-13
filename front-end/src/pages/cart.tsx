@@ -10,6 +10,7 @@ import StripeCheckout from 'react-stripe-checkout';
 import {setCart} from '../slices/cartSlice'
 import img from '../assets/images/Logo.png'
 import axios from 'axios';
+import { Spinner } from 'react-spinners-css';
 
 const stripeCheckoutSpan = document.querySelector('.StripeCheckout span');
 if (stripeCheckoutSpan) {
@@ -157,6 +158,7 @@ const CheckoutButton = styled.button`
   background:rgb(255, 93, 0);
   color:#fff;
   border:0;
+  ${BreakPoints.Andriod({fontSize:'1rem'})};
   padding:0.5em 1em;
   &:hover{
     opacity:0.7;
@@ -168,8 +170,7 @@ const Cart = () => {
 
    let Key = import.meta.env.VITE_STRIPE_KEY
 
-   const {cart,totalamount,total} = useAppSelector((state)=>state.Cart)
-   console.log(cart);
+   const {cart,totalamount,total,status} = useAppSelector((state)=>state.Cart)
    const {user} = useAppSelector((state)=>state.Auth)
    const navigate = useNavigate();
    const dispatch = useAppDispatch();
@@ -280,6 +281,11 @@ const Cart = () => {
        }
        token && makePayment();
     },[token])
+
+    if(status==='loading'){
+      return <div style={{width:'100%',display:'flex',justifyContent:'center',alignItems:'center'}}>
+        <Spinner color='orangered'/></div>
+    }  
    
    return (
       <Container>
@@ -290,14 +296,13 @@ const Cart = () => {
             <CartButton border='' text='white' clr='black' to={'/products'}>Continue Shopping</CartButton>
             <CartHeading>Shopping Bag ({totalamount})</CartHeading>
             <CheckoutButton onClick={handleClearCart}>Clear Cart</CheckoutButton>
-            <CartButton border='grey' text='black' clr='white' to={'/'}>Checkout</CartButton>
          </CartNav>
 
          <CartDeatils>
             <CartItems>
                {cart.length>0 && cart.map((item,index)=>{
                   return(
-                     <CartItem key={index}>
+                     <CartItem  data-aos='fade-up' data-aos-duration='2000' key={index}>
                         <Image src={item.img} alt='Image' />
                         <CartItemBody>
                            <CartItemDetail>
@@ -324,7 +329,8 @@ const Cart = () => {
                <SummaryDesc>Subtotal <Bold>රු : {total.subtotal.toLocaleString()}</Bold></SummaryDesc>
                <SummaryDesc>Estimated Discount : <Bold>{total.discount}%</Bold></SummaryDesc>
                <SummaryDesc>Total <Bold>රු : {total.final.toLocaleString()}</Bold></SummaryDesc>
-               {token ? <span>Processing ....</span>:(
+              {cart.length>0 &&<>
+                {token ? <span>Processing ....</span>:(
                   user.name ? 
                   
                   <StripeCheckout 
@@ -341,6 +347,8 @@ const Cart = () => {
                 
                 <CheckoutButton onClick={handleCheckout}>Checkout</CheckoutButton>
                 )}
+               </> 
+             }
             </CartSummary>
 
          </CartDeatils>

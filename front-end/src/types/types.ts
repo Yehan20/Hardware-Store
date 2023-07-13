@@ -7,11 +7,14 @@ export type CategoryItemType={
         link:string
     }
     product?:{
-        _id:string,
+        _id?:string,
         img:string,
-        name:string,
+        desc?:string,
         category:string,
-        price:number
+        price:number,
+        name:string,
+        color:string,
+        inStock:boolean |string,
     }
 
 }

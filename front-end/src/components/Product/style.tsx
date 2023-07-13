@@ -23,7 +23,7 @@ export const ButtonContainer=styled.div`
 
 export const ProductContainer=styled.div`
    
-   width:14rem ;
+   width:11rem ;
    position:relative ;
    &:hover ${ButtonContainer}{
       opacity:1 ;

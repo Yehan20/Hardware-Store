@@ -3,6 +3,7 @@ import { useAppDispatch, useAppSelector } from '../hooks/redux_selectors'
 import { getUsers } from '../slices/authSlice';
 import profile from '../assets/images/profile.png'
 import { isValidMotionProp } from 'framer-motion';
+import { Spinner } from 'react-spinners-css';
 
 type userType={
      _id:string,
@@ -13,15 +14,20 @@ type userType={
 
 const Users = () => {
     const dispatch = useAppDispatch();
-    const { users } = useAppSelector((state) => state.Auth)
+    const { users,status } = useAppSelector((state) => state.Auth)
     console.log(users);
     useEffect(() => {
         const token = localStorage.getItem('adminToken')
         dispatch(getUsers(token as string))
     }, [])
+
+    if(status==='pending'){
+        return <div style={{width:'100%',display:'flex',justifyContent:'center',alignItems:'center'}}>
+          <Spinner color='orangered'/></div>
+      }  
     return (
         <div className='table-container users-table'>
-            <table className='product-table'>
+            <table className='product-table' data-aos='fade-up' data-aos-duration='2000'>
                 <thead>
                     <tr>
                         <th>No</th>

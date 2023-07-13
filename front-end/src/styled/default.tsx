@@ -2,11 +2,12 @@ import { createGlobalStyle } from 'styled-components'
 
 export const GlobalStyles = createGlobalStyle`
 
+   html{
+    scroll-behaviour:smooth;
+   }
    :root {
-
     --toastify-color-dark: #000 !important;
     --toastify-text-color-light: #000;
-    
    }
    
    .StripeCheckout{
@@ -18,6 +19,8 @@ export const GlobalStyles = createGlobalStyle`
         opacity:0.7;
       }
       border-radius:0 !important;
+      box-shadow:0;
+      border:0;
    }
 
    .StripeCheckout span{

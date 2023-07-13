@@ -20,6 +20,8 @@ const RootLayout = () => {
   const location  = useLocation();
   const pageName= (location.pathname.split('/')[1])
 
+  
+
   return (
     <>
      <GlobalStyles/>

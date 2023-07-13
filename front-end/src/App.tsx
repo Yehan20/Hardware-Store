@@ -15,11 +15,20 @@ import {Provider} from 'react-redux'
 import { getProducts } from "./slices/productSlice"
 import { getUser } from "./slices/authSlice"
 
-import 'react-toastify/dist/ReactToastify.css';
+
 import Order from './pages/order'
 import PrivateRoute from './private/privateroute'
 import Search from './pages/search'
 import Success from './pages/success'
+import ErrorPage from './pages/errorpage'
+
+import 'react-toastify/dist/ReactToastify.css';
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+
+import Aos from "aos";
+import 'aos/dist/aos.css'
+import { useEffect } from 'react'
 
 
 function App() {
@@ -29,21 +38,25 @@ function App() {
   Store.dispatch(getProducts());
   Store.dispatch(getUser(token))
 
+  useEffect(()=>{
+    Aos.init()
+  },[])
+
  
   
   const router = createBrowserRouter(
     createRoutesFromElements(
-       <Route path="/" element={<RootLayout/>}>
+       <Route path="/" errorElement={<ErrorPage/>} element={<RootLayout/>}>
 
           <Route index element={<Home/>}/>
           <Route path="register" element={<Register/>}/>
 
           <Route path="login" element={<Login/>}/>
 
-          <Route path="products" element={<Productlayout/>}>
+          <Route path="products" errorElement={<ErrorPage/>} element={<Productlayout/>}>
             <Route index element={<Products/>}/>
             <Route path="type/:type" element={<ProductsCategory/>}/>
-            <Route path="product/:id" element={<SingleProduct/>}/>
+            <Route path="product/:id"  element={<SingleProduct/>}/>
           </Route>
 
           <Route path="cart" element={<Cart/>}/>

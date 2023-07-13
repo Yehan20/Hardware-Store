@@ -85,10 +85,15 @@ const productSlice = createSlice({
                state.status = action.error.message
             }
         })
+        .addCase(getSingleProduct.pending,(state)=>{
+            state.status='pending'
+        })
         .addCase(getSingleProduct.fulfilled,(state,action)=>{
             state.singleProduct = action.payload;
+            state.status='loaded'
         })
         .addCase(getProductCat.fulfilled,(state,action)=>{
+          state.status='loaded'
           state.productCategory = action.payload;
       })
     }

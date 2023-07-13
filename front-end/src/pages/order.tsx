@@ -4,6 +4,7 @@ import { useEffect,useState } from "react";
 import { clearHistory, clearOrders, getOrders } from "../slices/orderSlice";
 import {Andriod,TabVertical} from '../Responsive'
 import { Link } from "react-router-dom";
+import { Spinner } from "react-spinners-css";
 const Container = styled.div`
   padding:2em 5em;
   ${TabVertical({padding:'2em 2em'})};
@@ -62,7 +63,7 @@ const Image = styled.img`
 const Desc = styled.h5``
 const Order = () => {
  const {user} = useAppSelector((state)=>state.Auth);
- const {orders} = useAppSelector((state)=>state.Order)
+ const {orders,status} = useAppSelector((state)=>state.Order)
  const [mount,setMount] = useState(false);
  const dispatch = useAppDispatch();
  useEffect(()=>{
@@ -80,8 +81,13 @@ const Order = () => {
      dispatch(clearOrders(user._id))
     }
  },[orders])
- console.log(orders)
-  return <Container>
+ 
+ if(status==='loading'){
+  return <div style={{width:'100%',display:'flex',justifyContent:'center',alignItems:'center'}}>
+    <Spinner color='orangered'/></div>
+  }  
+
+  return <Container data-aos='fade-up' data-aos-duration='2000'>
             <Title>Orders</Title>
             <Button onClick={handleClear}>Clear History</Button>
                 <Table>

@@ -29,11 +29,11 @@ const Login = () => {
         <form>
            <div>
             <label htmlFor="username">Username</label>
-            <input value={username} onChange={(e)=>setUsername(e.target.value)} type="text" placeholder='username' id='username' />
+            <input value={username} onChange={(e)=>setUsername(e.target.value)} type="text" placeholder='Username' id='username' />
            </div>
            <div>
             <label htmlFor="password">Password</label>
-            <input value={password}  onChange={(e)=>setPassword(e.target.value)} type="password" placeholder='username' id='password' />
+            <input value={password}  onChange={(e)=>setPassword(e.target.value)} type="password" placeholder='Password' id='password' />
            </div>
            <button type='button' onClick={handleClick}>Login</button>
            <div className='err'>

@@ -4,6 +4,7 @@ import { allOrders } from '../slices/orderSlice';
 import styled from 'styled-components';
 import { Andriod, TabVertical } from '../Responsive';
 import { Link } from 'react-router-dom';
+import { Spinner } from 'react-spinners-css';
 
 const Container = styled.div`
 
@@ -66,15 +67,19 @@ const Desc = styled.p``
 
 const Orders = () => {
     const dispatch = useAppDispatch();
-    const { orders } = useAppSelector((state) => state.Order)
+    const { orders,status } = useAppSelector((state) => state.Order)
     console.log(orders);
     useEffect(() => {
         const token = localStorage.getItem('adminToken') 
         dispatch(allOrders(token as string))
     }, [])
+    if(status==='pending'){
+      return <div style={{width:'100%',display:'flex',justifyContent:'center',alignItems:'center'}}>
+        <Spinner color='orangered'/></div>
+    }  
   return (
     <Container>
-             <Table>
+             <Table data-aos='fade-up' data-aos-duration='2000'>
             <Thead>
                 <Tr>
                 <Th>

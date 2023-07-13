@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import {Container} from '../components/Products/style'
 import Product from '../components/Product'
-import { SampleProducts } from '../data/data'
+import { animateScroll as scroll } from 'react-scroll';
 import styled from 'styled-components'
 import { Ios } from '../Responsive'
 import { useAppDispatch, useAppSelector } from '../hooks/redux_selectors'
@@ -48,6 +48,10 @@ const Products = () => {
   const dispatch = useAppDispatch();
 
   useEffect(()=>{
+    scroll.scrollToTop({
+      duration: 150, // Specify the duration in milliseconds (e.g., 250ms)
+      smooth: true, 
+  })
     document.title='Products'
     dispatch(getProductCat("All"))
   },[])
@@ -66,7 +70,7 @@ const Products = () => {
          </Select>
         </Column>
         <Column>
-          <FilterHeading>Sort by Pirce</FilterHeading>
+          <FilterHeading>Sort by Price</FilterHeading>
           <Select onChange={(e)=>setSortCri(e.target.value)}>
             {PriceOptions}
           </Select>

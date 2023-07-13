@@ -7,7 +7,7 @@ import {BsClock} from 'react-icons/bs'
 
 const Footer = () => {
   return (
-    <Container>
+    <Container  data-aos='fade-up' data-aos-duration='2000'>
         <FirstFooter>
             <Column>
                <Title>Contact Us</Title>
@@ -24,18 +24,18 @@ const Footer = () => {
               <Title>Information</Title>
               <List>
                 <ListItem><ListLink to='/test'>About</ListLink></ListItem>
-                <ListItem><ListLink to='/test'>About</ListLink></ListItem>
-                <ListItem><ListLink to='/test'>About</ListLink></ListItem>
-                <ListItem><ListLink to='/test'>About</ListLink></ListItem>
+                <ListItem><ListLink to='/test'>Contact</ListLink></ListItem>
+                <ListItem><ListLink to='/test'>NewsLetter</ListLink></ListItem>
+                <ListItem><ListLink to='/test'>Blog</ListLink></ListItem>
               </List>
             </Column>
 
             <Column>
-               <Title>My Account</Title>
+               <Title>Other</Title>
                <List>
-                <ListItem><ListLink to='/test'>About</ListLink></ListItem>
-                <ListItem><ListLink to='/test'>About</ListLink></ListItem>
-                <ListItem><ListLink to='/test'>About</ListLink></ListItem>
+                <ListItem><ListLink to='/test'>Privacy Policy</ListLink></ListItem>
+                <ListItem><ListLink to='/test'>Newest Tools</ListLink></ListItem>
+                <ListItem><ListLink to='/test'>Hand Tools</ListLink></ListItem>
               </List>
             </Column>
 

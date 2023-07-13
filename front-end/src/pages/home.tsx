@@ -3,6 +3,7 @@ import AnnounceMent from '../components/AnnounceMent'
 import Category from '../components/Category'
 import Product from '../components/Products'
 import Slider from '../components/Slider'
+import Testimonials from '../components/TesteMonials'
 
 const Home = () => {
 
@@ -16,6 +17,7 @@ const Home = () => {
       <Slider/>
       <Category/>
       <Product/>
+      <Testimonials/>
       <AnnounceMent/>
       {/* <Footer/> */}
     </>

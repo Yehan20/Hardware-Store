@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import {Container} from '../components/Products/style'
 import Product from '../components/Product'
-import { SampleProducts } from '../data/data'
+import { animateScroll as scroll }  from 'react-scroll'
 import styled from 'styled-components'
 import { Ios } from '../Responsive'
 import { useParams } from 'react-router'
@@ -56,6 +56,10 @@ const ProductsCategory = () => {
 
   useEffect(()=>{
      document.title='Products'
+     scroll.scrollToTop({
+      duration: 150, // Specify the duration in milliseconds (e.g., 250ms)
+      smooth: true, 
+  })
      dispatch(getProductCat(type as string))
   },[])
   return (

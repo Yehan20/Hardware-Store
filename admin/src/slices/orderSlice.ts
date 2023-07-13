@@ -13,7 +13,7 @@ const OrderState:OrderInterface={
      status:'idle'
 }
 
-export const allOrders = createAsyncThunk('auth/getOrders',async(token)=>{
+export const allOrders = createAsyncThunk('auth/getOrders',async(token:string)=>{
    // axios.defaults=
     const users = await axios.get(`${URL}viewAll`,{
        headers:{

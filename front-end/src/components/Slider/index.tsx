@@ -10,7 +10,7 @@ import Image3 from '../../assets/images/slide-3.jpg'
 
 const Slider = () => {
     return (
-        <Container>
+        <Container data-aos='fade-up' data-aos-duration='2000' >
             <Carousel.Caption className='fixed-caption d-none d-md-block'>
                 <CarouselContainer>
                     <Title>For All you Home and Hardware Needs</Title>

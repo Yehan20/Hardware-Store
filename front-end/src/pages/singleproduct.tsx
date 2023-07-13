@@ -8,6 +8,7 @@ import { getSingleProduct } from '../slices/productSlice';
 import { useParams } from 'react-router';
 import { SingleProductType } from '../types/types';
 import { addCart, setCart } from '../slices/cartSlice';
+import { Spinner } from 'react-spinners-css';
 
 const Container= styled.div`
  display:flex ;
@@ -91,7 +92,7 @@ const Color = styled.div`
 
 const SingleProduct = () => {
 
-  const product = useAppSelector(state=>state.Products.singleProduct)
+  const {singleProduct:product,status} = useAppSelector(state=>state.Products)
   const {cart} = useAppSelector(state=>state.Cart)
   const {user} = useAppSelector(state=>state.Auth)
 
@@ -133,14 +134,19 @@ const SingleProduct = () => {
     }
   },[cart])
 
+  if(status==='pending'){
+    return <div style={{width:'100%',display:'flex',justifyContent:'center',alignItems:'center'}}>
+      <Spinner color='orangered'/></div>
+  }  
+
 
   return (
      <>
         {product && <Container>
-      <Column>
+      <Column  data-aos='fade-right' data-aos-duration='2000'>
         <Img src={product?.img} alt='Product'/>
       </Column>
-      <Column>
+      <Column  data-aos='fade-up' data-aos-duration='2500'>
          <Title>{product.name}</Title>
          <Desc>{product.desc}</Desc>
          <Label>Color </Label>

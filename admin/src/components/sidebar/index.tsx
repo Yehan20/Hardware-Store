@@ -31,8 +31,8 @@ const SideBar = () => {
         <li><HiTemplate/><NavLink to='/'>Products</NavLink></li>
         <li><FiPlus/><NavLink to='/new'>New Product</NavLink></li>
         <li className={`${pageName==='edit'?'active':''}`}><FiEdit/><span style={{display:'inline-block',marginLeft:'5px'}}>Edit</span></li>
-        <li><SiGoogleanalytics/><NavLink to='/products'>Analytics</NavLink></li>
-        <li><IoAnalyticsSharp/><NavLink to='/products'>Sales</NavLink></li>
+        <li><SiGoogleanalytics/><NavLink to='/analytics'>Analytics</NavLink></li>
+        <li><IoAnalyticsSharp/><NavLink to='/sales'>Sales</NavLink></li>
       </ul>
     </div>
     <div>
@@ -40,7 +40,7 @@ const SideBar = () => {
       <ul>
         <li><FaUsers/><NavLink to='/users'>Users</NavLink></li>
         <li><BsListUl/><NavLink to='/orders'>Orders</NavLink></li>
-        <li><TbReportAnalytics/><NavLink to='/products'>Report</NavLink></li>
+        <li><TbReportAnalytics/><NavLink to='/reports'>Report</NavLink></li>
       </ul>
     </div>
     <div>

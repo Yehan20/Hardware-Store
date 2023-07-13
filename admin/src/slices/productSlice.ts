@@ -1,9 +1,22 @@
 import {createAsyncThunk,createSlice} from '@reduxjs/toolkit'
 import axios from 'axios';
 
+type Product={
+  
+        _id:string,
+        img:string,
+        desc:string,
+        category:string,
+        price:number,
+        name:string,
+        color:string,
+        inStock:boolean,
+     
+}
+
 interface productInterface{
     status:string,
-    products:[],
+    products:Product[],
     singleProduct:{
         _id:string,
         img:string,
@@ -51,7 +64,11 @@ export const getSingleProduct = createAsyncThunk('products/getOne',async(name:st
 const productSlice = createSlice({
     name:'productSlice',
     initialState:initialState,
-    reducers:{},
+    reducers:{
+        deleteProduct(state,action){
+           state.products = state.products.filter((product)=>product._id!==action.payload)
+        }
+    },
     extraReducers:(builder)=>{
         builder.addCase(getProducts.pending,(state)=>{
              state.status='loading'
@@ -70,3 +87,4 @@ const productSlice = createSlice({
     }
 })
 export default productSlice.reducer
+export const{deleteProduct} = productSlice.actions

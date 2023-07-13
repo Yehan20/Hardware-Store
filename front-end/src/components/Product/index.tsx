@@ -39,7 +39,7 @@ const Product = ({ product }: CategoryItemType) => {
 
   return (
 
-     <ProductContainer >
+     <ProductContainer  data-aos='fade-right' data-aos-duration='2000'>
       <Image src={product?.img} alt='product' />
       <ButtonContainer>
          <Link to={'/products/product/'+product?._id}>

@@ -1,8 +1,6 @@
 import {createAsyncThunk,createSlice} from '@reduxjs/toolkit';
 import axios from 'axios';
 
-
-
 interface CartTypes{
      total:{subtotal:number,discount:number,final:number};
      totalamount:number;
@@ -206,11 +204,12 @@ const cartSlice = createSlice({
         },
         emptyCart(state){
              state.cart = [];
-             state.toastConfig={
-                 message:'Cart Empty',
-                 color:'warning' 
-             }
-             state.notification = true;
+            //  state.toastConfig={
+            //      message:'Cart Empty',
+            //      color:'warning' 
+            //  }
+            //  state.notification = true;
+             state.status = 'logout'
              state.totalamount = state.cart.length;
         }
     },
@@ -230,6 +229,7 @@ const cartSlice = createSlice({
           }
         }
       })
+
       .addCase(loadCart.rejected,(state,action)=>{
          state.status = 'failed to fetch'
       })

@@ -7,27 +7,25 @@ const addProduct = async(req:Request,res:Response)=>{
      Logger.info(JSON.stringify(req.body))
 
      if(name===''||price==='' || category===''|| img===''|| desc===''){
-         return res.json({message:"fill all feilds"}).status(500)
+         return res.status(500).json({message:"fill all feilds"})
      }
 
     //   check for any existing product
-
-
     try {
         const isExist =await productsModel.findOne({name:name});
         Logger.warning(`message ${isExist}`);
         if(await productsModel.findOne({name:name})){
-             return res.json({message:'product is there already'}).status(500)
+             return res.status(500).json({message:'product is there already'})
         }
 
         const addedProduct =await  productsModel.create({
             name,price,  category,img ,desc 
         })
-        res.json({product:addedProduct}).status(200)
+        res.status(200).json({product:addedProduct})
         
     } catch (error:unknown) {
         if(error instanceof Error){
-            res.json({message:error.message}).status(500)
+            res.status(500).json({message:error.message})
         }
     }
 }
@@ -69,16 +67,29 @@ const viewProductsCat = async(req:Request,res:Response)=>{
 const editProduct = async(req:Request,res:Response)=>{
     const {id} = req.params;
     const newData = req.body;
+
     try{
+        if(newData.name===''||newData.price===''|| newData.desc===''){
+            throw Error('Fill all feilds')
+        }
+   
+        const currentproduct= await productsModel.findById(id)
+        console.log(currentproduct.name,newData.name);
+        if(currentproduct.name!== newData.name){
+            console.log(await productsModel.findOne({name:newData.name}));
+           if(await productsModel.findOne({name:newData.name})) {
+             throw Error('That name is Used')
+           }
+        }
+
        const updatedProduct = await productsModel.findByIdAndUpdate(id,{
          $set:newData
        },{new:true})
 
-       res.json(updatedProduct).status(200)
-
+       res.status(200).json(updatedProduct)
     }catch(error){
         if(error instanceof Error){
-            res.json({message:error.message}).status(500)
+            res.status(500).json({message:error.message})
         }
     }
 }
@@ -87,10 +98,10 @@ const deleteProduct = async(req:Request,res:Response)=>{
    const {id} = req.params;
    try{
       await productsModel.findByIdAndRemove(id)
-      res.json({message:'deleted',id:id}).status(200)
+      res.status(200).json({message:'deleted',id:id})
    }catch(error){
         if(error instanceof Error){
-            res.json({message:error.message}).status(500)
+            res.status(500).json({message:error.message})
     }
    }
 }

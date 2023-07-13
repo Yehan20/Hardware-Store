@@ -5,7 +5,7 @@ import { CategoryItemContainer, Desc, Title,Image } from './style'
 
 const CategoryItem= ({item}:CategoryItemType) => {
   return (
-     <CategoryItemContainer>
+     <CategoryItemContainer >
          <Image src={item?.img} alt={item?.name}/>
          <Title>{item?.name}</Title>
          <Link to={'/products/type/'+item?.link}>View</Link>

@@ -147,9 +147,13 @@ const AuthSlice = createSlice({
            }
 
        })
+       .addCase(getUsers.pending,(state)=>{
+         state.status='pending'
+       })
        .addCase(getUsers.fulfilled,(state,action)=>{
            console.log(action.payload)
            state.users = action.payload
+           state.status='loaded'
        })
        
      

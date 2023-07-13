@@ -13,6 +13,7 @@ export const Menu = styled.div`
   display:flex;
   flex-direction:column;
   position: absolute;
+  z-index:9999;
    top: 3em;
    left: 50%;
    width: 120px;

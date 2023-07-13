@@ -89,7 +89,7 @@ const Register = () => {
   },[])
 
   useEffect(()=>{
-    if(user){
+    if(user.name){
        localStorage.setItem('token',user.token);
        navigate('/');
     }

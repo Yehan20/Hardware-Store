@@ -43,7 +43,7 @@ const Success = () => {
    // alert('payment successful')
     setTimeout(()=>{  
        navigate('/',{replace:true})
-    },1500)
+    },2000)
   },[])
   return (
      <Container>
