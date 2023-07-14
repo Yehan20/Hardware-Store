@@ -6,7 +6,7 @@ import axios from 'axios';
 import { toast,ToastContainer } from 'react-toastify';
 
 
-const URL = 'http://localhost:3001/products/edit'
+const URL = 'https://toolandservice.onrender.com/products/edit'
 
 const Edit = () => {
 

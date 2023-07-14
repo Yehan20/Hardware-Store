@@ -5,7 +5,7 @@ import axios from 'axios'
 import { ToastContainer, toast } from 'react-toastify'
 import { useNavigate } from 'react-router'
 
-const URL = 'http://localhost:3001/products/add'
+const URL = 'https://toolandservice.onrender.com/products/add'
 
 const Create = () => {
 

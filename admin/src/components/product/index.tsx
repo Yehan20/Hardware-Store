@@ -17,7 +17,7 @@ interface ProductInterface{
   }
 
 }
-const URL  =  'http://localhost:3001/products/delete';
+const URL  =  'https://toolandservice.onrender.com/delete';
 
 const Product:React.FC<ProductInterface>= ({product}) => {
   const dispatch = useAppDispatch();

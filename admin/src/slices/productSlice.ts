@@ -44,7 +44,7 @@ const initialState:productInterface = {
      },
 }
 
-const URL = 'http://www.localhost:3001/products/'
+const URL = 'https://toolandservice.onrender.com/products/'
 
 export const getProducts = createAsyncThunk('proudcts/get',async()=>{
       const response = await axios.get(URL+'all');
