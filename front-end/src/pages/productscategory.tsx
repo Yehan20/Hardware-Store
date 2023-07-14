@@ -27,7 +27,7 @@ const Select = styled.select`
 
 
 const PriceOptions = <>
-<option value='all'>Random</option>
+<option value='all'>Default</option>
 <option value='highest'>Highest to Lowest</option>
 <option value='lowest'>Lowest to Highest</option>
 </>

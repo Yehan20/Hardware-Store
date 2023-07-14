@@ -1,7 +1,7 @@
 import {createAsyncThunk,createSlice} from '@reduxjs/toolkit';
 import axios from 'axios';
 
-const URL = 'http://localhost:3001/orders/'
+const URL = 'https://toolandservice.onrender.com/orders/'
 
 interface OrderInterface{
      status:string;

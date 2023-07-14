@@ -10,7 +10,7 @@ interface ProductInterface {
 }
 
 
-const URL = 'http://www.localhost:3001/products/'
+const URL = 'https://toolandservice.onrender.com/products/'
 
 export const getProducts = createAsyncThunk('proudcts/get',async()=>{
       const response = await axios.get(URL+'all');
@@ -69,6 +69,14 @@ const productSlice = createSlice({
 
                 return {...state,productCategory:[...sortedProducts]} 
              }
+             if(action.payload==='all'){
+                let sortedProducts = newProducts.sort(
+                    (x:any,y:any)=>(x.createdAt>y.createdAt)?-1:(x.createdAt<y.createdAt?1:0)
+                )
+
+                return {...state,productCategory:[...sortedProducts]} 
+             }
+             
            
         }
     },

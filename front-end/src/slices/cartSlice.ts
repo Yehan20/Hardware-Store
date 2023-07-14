@@ -31,7 +31,7 @@ const InitialState:CartTypes={
       
 }
 
-const URL = 'http://localhost:3001/cart/'
+const URL = 'https://toolandservice.onrender.com/cart/'
 
 export const loadCart = createAsyncThunk('cart/get',async(id:string)=>{
     

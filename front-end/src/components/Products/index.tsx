@@ -60,7 +60,7 @@ const Products = () => {
   }
   
   if(!location){
-    return  <SliderContainer>
+    return  <SliderContainer data-aos='fade-up' data-aos-duration='2000'>
             <Slider   {...settings}>
               {Items &&  Items.map((product,index)=>{
                 return <Product  key={index} product={product} />

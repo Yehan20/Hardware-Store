@@ -13,6 +13,12 @@ const Colored = styled.span`
   color:rgb(255, 93, 0);
   font-weight:600;
 `
+const Desc= styled.p`
+  color:orangered;
+  font-family:'Poppins',sans-serif;
+  font-size:1.5rem;
+  font-weight:500;
+`
 const Search = () => {
     const { query } = useParams();
     let search = new RegExp(query as string, 'i')
@@ -28,6 +34,7 @@ const Search = () => {
                 {searchedProduct.map((product, index) => {
                     return <Product key={index} product={product} />
                 })}
+                {searchedProduct.length<1 && <Desc>No Matching Results</Desc>}
             </Container>
         </>
 
