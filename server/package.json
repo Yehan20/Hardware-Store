@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "devStart": "nodemon src/server.ts",
-    "build": "rm -rf build/ && tsc.cmd"
+    "start": "node ./build/server.js",
+    "build": "rm -rf build/ && tsc"
   },
   "keywords": [],
   "author": "Yehan Nilanga",
