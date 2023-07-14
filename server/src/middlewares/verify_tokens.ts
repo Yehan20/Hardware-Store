@@ -47,14 +47,14 @@ export const verifyTokenAdmin = (req:Request,res:Response,next:NextFunction)=>{
     Logger.info(token)
 
     if(!token){
-      return res.json({message:'no token available'}).status(400);
+      return res.status(400).json({message:'no token available'})
     }
     jwt.verify(token,SECRET_KEY,(err,data:any)=>{
         if(err){
-            return res.json({message:"token not verifed"}).status(400)
+            return res.status(400).json({message:"token not verifed"})
         }
         if(!data.isAdmin){
-            return res.json({message:"you are not an Admin to delete"}).status(400)
+            return res.status(400).json({message:"you are not an Admin to delete"})
         }    
         next();
     })
