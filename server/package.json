@@ -11,6 +11,9 @@
   },
   "keywords": [],
   "author": "Yehan Nilanga",
+  "engines": {
+    "node": ">=14.20.1"
+  },
   "license": "MIT",
   "dependencies": {
     "bcrypt": "^5.1.0",
