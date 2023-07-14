@@ -33,11 +33,16 @@ export const GlobalStyles = createGlobalStyle`
      align-items:center;
      gap:10px;
    }
+   .table-product{
+    height:500px;
+    overflow:auto ;
+   }
    .product-table{
       padding:0.5em;
       border-collapse: collapse;
       width: 100%;
       margin-top:1em;
+   
    }
    .product-table th {
     padding:8px 8px 8px 4px;

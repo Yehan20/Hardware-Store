@@ -36,7 +36,7 @@ const Home = () => {
     return <div style={{width:'100%',display:'flex',justifyContent:'center',alignItems:'center'}}><Spinner color='orangered'/></div>
   }
   return (
-    <div className='table-container'>
+    <div className='table-container table-product'>
 
       <table  className='product-table' data-aos='fade-up' data-aos-duration='2000'>
          <thead>
