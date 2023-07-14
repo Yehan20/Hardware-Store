@@ -8,7 +8,7 @@ const AnnounceMent = () => {
          <Desc  data-aos='fade-up' data-aos-duration='2000'>
            Hammers, Chisels, Universal Pliers, Nippers, Jigsaws, Saws
          </Desc>
-         <StyledLink to='/products/type/All'>Show more</StyledLink>
+         <StyledLink data-aos='fade-up' data-aos-duration='2000' to='/products/type/All'>Show more</StyledLink>
     </Container>
   )
 }

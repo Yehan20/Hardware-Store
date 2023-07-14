@@ -4,7 +4,7 @@ import Bg from '../../assets/images/banner-1.jpg'
 export const Container = styled.div`
 
   text-align:center ;
-  padding:2em 1em ;
+  padding:4em 1em ;
   background-image:url(${Bg}) ;
   background-repeat:no-repeat ;
   background-size:cover ;

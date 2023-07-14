@@ -47,8 +47,8 @@ const Header = () => {
   return (
     <Container >
 
-      <FirstHeaderSection>
-        <Left><TitleHeader><Link to={'/'}>Tools Suppliers</Link></TitleHeader></Left>
+      <FirstHeaderSection >
+        <Left><TitleHeader><Link to={'/'}>Tool Land</Link></TitleHeader></Left>
         <Right>
           <HeaderPara>Language : EN</HeaderPara>
           {user.name && <HeaderButton onClick={()=>setShow(!show)}>My Account <FaChevronDown /></HeaderButton>}
@@ -61,11 +61,11 @@ const Header = () => {
       </SecondHeaderSection> */}
 
       <ThirdHeaderSection>
-        <SearchContainer>
+        <SearchContainer data-aos='fade-right' data-aos-duration='1500'>
           <Search placeholder='Search' value={searchParam} onChange={(e)=>setSearchParam(e.target.value)} />
           <SearchButton onClick={handleClick}><FaSearch/></SearchButton>
         </SearchContainer>
-        <Navigation />
+        <Navigation  />
       </ThirdHeaderSection>
       <Notfication/>
     </Container>

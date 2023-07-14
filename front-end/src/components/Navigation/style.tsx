@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import styled from "styled-components";
 
 export const Nav = styled.nav`
@@ -12,6 +12,11 @@ export const Ul = styled.ul`
   margin:0 ;
   gap:1em;
   align-items:baseline ;
+`
+export const NavigationLink = styled(NavLink)`
+   &.active{
+      text-decoration:underline;
+   }
 `
  
 export const Li = styled.li`
@@ -28,7 +33,7 @@ export const Li = styled.li`
   }
 `
  
-export const NavLink = styled.a`
+export const NaviLink = styled.a`
 
 `
 export const Button = styled(Link)`

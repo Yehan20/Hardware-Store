@@ -63,7 +63,7 @@ export const SecondHeaderSection  = styled.div`
    ${BreakPoints.Tablet({padding:'2em 2em'})};
 `
 export const ThirdHeaderSection  = styled.div`
-   padding:0.4em 5em ;
+   padding:0.5em 5em ;
    display:flex ;
    justify-content:space-between ;
    background-color:#ff5d00; 

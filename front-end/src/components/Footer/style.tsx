@@ -7,7 +7,7 @@ export const Container  = styled.footer`
 `
 export const FirstFooter = styled.div`
   display:flex ;
-  padding:2em 5em ;
+  padding:4em 5em ;
   justify-content:space-between ;
   ${BreakPoints.TabVertical({flexWrap:'wrap',gap:'1em'})};
   ${BreakPoints.TabVertical({padding:'2em 2em'})};
