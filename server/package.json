@@ -2,12 +2,11 @@
   "name": "server",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "devStart": "nodemon src/server.ts",
     "start": "node ./build/server.js",
-    "build": "rm -rf build/ && tsc"
+    "build": "tsc"
   },
   "keywords": [],
   "author": "Yehan Nilanga",
