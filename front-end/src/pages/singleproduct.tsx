@@ -10,6 +10,7 @@ import { SingleProductType } from '../types/types';
 import { addCart, setCart } from '../slices/cartSlice';
 import { Spinner } from 'react-spinners-css';
 
+
 const Container= styled.div`
  display:flex ;
  padding:1em 5em ;
@@ -92,9 +93,11 @@ const Color = styled.div`
 
 const SingleProduct = () => {
 
+
   const {singleProduct:product,status} = useAppSelector(state=>state.Products)
   const {cart} = useAppSelector(state=>state.Cart)
   const {user} = useAppSelector(state=>state.Auth)
+
 
   const {id}  = useParams();
   const dispatch = useAppDispatch()
@@ -124,7 +127,10 @@ const SingleProduct = () => {
 
      dispatch(getSingleProduct(id as string))
      document.title='Product'
+     return ()=>console.log('clean up')
   },[])
+
+
 
 
   useEffect(()=>{
