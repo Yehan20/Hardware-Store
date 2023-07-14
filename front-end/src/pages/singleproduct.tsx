@@ -151,9 +151,9 @@ const SingleProduct = () => {
          <Desc>{product.desc}</Desc>
          <Label>Color </Label>
          <Colors>
-            <Color style={{backgroundColor:`${product.color?product.color:'red'}`}}/>
-            <Color style={{backgroundColor:`${product.color?product.color:'red'}`}}/>
-            <Color style={{backgroundColor:`${product.color?product.color:'red'}`}}/>
+            <Color style={{backgroundColor:`${product.color?product.color:'#123'}`}}/>
+            <Color style={{backgroundColor:`${product.color?product.color:'#123'}`}}/>
+            <Color style={{backgroundColor:`${product.color?product.color:'#123'}`}}/>
          </Colors>
          <Label>Avalibility: {product.inStock?"In Stock" : 'Out of Stock'} </Label>
          <Price>රු : {product.price * amount}</Price>

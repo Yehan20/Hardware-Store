@@ -5,8 +5,10 @@ import Person1 from '../../assets/images/person-1.jpg'
 import Person2 from '../../assets/images/person-2.jpg'
 import Person3 from '../../assets/images/person-3.jpg'
 import {FaQuoteLeft,FaQuoteRight} from 'react-icons/fa'
+import { Andriod } from '../../Responsive';
 const MainContainer = styled.div`
   padding:4em 10em;
+  ${Andriod({padding:'2em 2em'})};
 `
 
 const Container = styled.div`
@@ -51,6 +53,33 @@ const Testimonials = () => {
         autoplaySpeed: 3000,
         centerMode:true,
         speed:2000,
+        responsive: [
+          {
+            breakpoint: 1024,
+            settings: {
+              slidesToShow: 1,
+              slidesToScroll: 1,
+           
+            }
+          },
+          {
+            breakpoint: 600,
+            settings: {
+              slidesToShow: 1,
+              slidesToScroll: 1,
+              centerMode:false,
+            }
+          },
+          {
+            breakpoint: 480,
+            settings: {
+              slidesToShow: 1,
+              slidesToScroll: 1,
+              centerMode:false,
+
+            }
+          }
+        ]
  
   };
   return (

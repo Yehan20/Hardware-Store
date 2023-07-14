@@ -328,7 +328,7 @@ const Cart = () => {
                <SummaryHead>Summary</SummaryHead>
                <SummaryDesc>Subtotal <Bold>රු : {total.subtotal.toLocaleString()}</Bold></SummaryDesc>
                <SummaryDesc>Estimated Discount : <Bold>{total.discount}%</Bold></SummaryDesc>
-               <SummaryDesc>Total <Bold>රු : {total.final.toLocaleString()}</Bold></SummaryDesc>
+               <SummaryDesc>Total <Bold>රු : {Math.floor(total.final).toLocaleString()}</Bold></SummaryDesc>
               {cart.length>0 &&<>
                 {token ? <span>Processing ....</span>:(
                   user.name ? 

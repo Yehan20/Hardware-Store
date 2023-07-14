@@ -7,6 +7,7 @@ import { Ios } from '../Responsive'
 import { useParams } from 'react-router'
 import { useAppDispatch, useAppSelector } from '../hooks/redux_selectors'
 import { getProductCat,sortProduct } from '../slices/productSlice'
+import { Spinner } from 'react-spinners-css'
 
 const Navigation = styled.div`
   display:flex ;
@@ -48,6 +49,7 @@ const ProductsCategory = () => {
   const [sortCri,setSortCri] = useState('');
 
   const productsCategory = useAppSelector(state=>state.Products.productCategory)
+  const status = useAppSelector(state=>state.Products.status)
   
   useEffect(()=>{
        dispatch(sortProduct(sortCri))     
@@ -62,6 +64,11 @@ const ProductsCategory = () => {
   })
      dispatch(getProductCat(type as string))
   },[])
+
+  if(status==='pending'){
+    return <div style={{width:'100%',display:'flex',justifyContent:'center',alignItems:'center'}}>
+      <Spinner color='orangered'/></div>
+  }  
   return (
     <Container>
     <Navigation>

@@ -3,7 +3,8 @@ import * as BreakPoints from '../../Responsive';
 
 export const Image=styled.img`
   width:100% ;
-  ${BreakPoints.Andriod({maxWidth:'400px',margin:'0 auto',display:'block'})};
+  height:170px;
+  ${BreakPoints.Andriod({maxWidth:'400px',height:'350px',margin:'0 auto',display:'block'})};
 `
 export const ButtonContainer=styled.div`
    position:absolute ;
@@ -30,6 +31,7 @@ export const ProductContainer=styled.div`
    }
    ${BreakPoints.TabVertical({width:'45%'})}
    ${BreakPoints.Andriod({width:'100%'})};
+   margin-bottom:1em;
 `
 export const Button=styled.button`
   background-color:#fff ;

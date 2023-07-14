@@ -6,6 +6,7 @@ import styled from 'styled-components'
 import { Ios } from '../Responsive'
 import { useAppDispatch, useAppSelector } from '../hooks/redux_selectors'
 import { getProductCat, sortProduct } from '../slices/productSlice'
+import { Spinner } from 'react-spinners-css';
 
 const Navigation = styled.div`
   display:flex ;
@@ -22,6 +23,7 @@ const Options = <>
   <option value=''>All Tools</option>
   <option value='Power Tools'>Power Tools</option>
   <option value='Garden Tools' >Garden Tools</option> 
+  <option value='Hand Tools' >Hand Tools</option> 
   <option value='Machine Tools'>Machine Tools</option>
 </>
 
@@ -40,6 +42,7 @@ const Column = styled.div`
 `
 const Products = () => {
   const products = useAppSelector(state=>state.Products.productCategory)
+  const status = useAppSelector(state=>state.Products.status)
   const [sortCri,setSortCri] = useState('');
   const [category,setCategory] = useState('');
 
@@ -59,6 +62,12 @@ const Products = () => {
   useEffect(()=>{
     dispatch(sortProduct(sortCri))     
   },[sortCri])
+
+  if(status==='pending'){
+    return <div style={{width:'100%',display:'flex',justifyContent:'center',alignItems:'center'}}>
+      <Spinner color='orangered'/></div>
+  }  
+
 
   return (
     <Container>
