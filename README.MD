@@ -4,12 +4,14 @@ A Fullstack Hardware , Tool Store , Which allows users to purchase , view items.
 of Diffent categories
 
 Link to the application : https://yn-tooland-store.netlify.app/
+
 Link to the adminPanel  : https://yn-tooland-admin.netlify.app/
 
 ### Try it out with these fake credentials
 
 - Username: testUser
 - Password: tesT1234$
+- TestCard Number : 4242 4242 4242 4242
 
 ## Lessons learned
 
