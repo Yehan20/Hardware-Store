@@ -252,7 +252,7 @@ const Cart = () => {
 
       
             try{
-               const response = await axios.post('http://localhost:3001/stripe/pay',{
+               const response = await axios.post('https://toolandservice.onrender.com/stripe/pay',{
                   tokenId:token.id,
                   amount:total.final * 100,
                   price:total.final,
