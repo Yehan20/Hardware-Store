@@ -63,7 +63,7 @@ export const verifyTokenAdmin = (req:Request,res:Response,next:NextFunction)=>{
 
 export const genToken =(id:string,username:string,isAdmin:boolean)=>{
     const user = {
-        username,isAdmin
+        username,isAdmin,id
     }
     console.log(user);
     const token = jwt.sign(user,SECRET_KEY,{expiresIn:"2days"})
