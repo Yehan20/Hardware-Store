@@ -2,6 +2,7 @@ import {Request,Response} from 'express'
 import Stripe from "stripe";
 import dotenv from 'dotenv';
 import order from '../model/order';
+import { CustomRequest } from '../middlewares/verify_tokens';
 
 
 
@@ -13,9 +14,9 @@ const stripe = new Stripe(`${STRIPE_KEY}`,{
     apiVersion: '2022-11-15',
  })
 
-const makePayment = async(req:Request,res:Response)=>{
+const makePayment = async(req:CustomRequest,res:Response)=>{
     // add to the orders
-    const userId = req.body.userId;
+    const userId = req.user._id;
     const address = req.body.address
     const totalPrice = req.body.price;
     const items = req.body.items;

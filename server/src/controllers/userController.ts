@@ -27,7 +27,7 @@ const register =async(req:Request,res:Response)=>{
      }
 
 
-     const token = genToken(createdUser.name,createdUser.isAdmin);
+     const token = genToken(createdUser._id,createdUser.name,createdUser.isAdmin);
 
      const {password,...rest} = createdUser._doc;
      rest.token = token;
@@ -53,7 +53,7 @@ const login =async(req:Request,res:Response)=>{
 
     try{
        const user = await userModel.Login(username,pwd);
-       const token = genToken(user.name,user.isAdmin);
+       const token = genToken(user._id,user.name,user.isAdmin);
        const {password,...rest} = user._doc;
        rest.token = token;
        res.status(200).json({user:rest});
@@ -74,7 +74,7 @@ const adminLogin =async(req:Request,res:Response)=>{
      if(!user.isAdmin){
       res.status(400).json({message:'You are not an Admin'})
      }
-     const token = genToken(user.name,user.isAdmin);
+     const token = genToken(user._id,user.name,user.isAdmin);
      const {password,...rest} = user._doc;
      rest.token = token;
      res.status(200).json({user:rest});

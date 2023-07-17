@@ -61,7 +61,7 @@ export const verifyTokenAdmin = (req:Request,res:Response,next:NextFunction)=>{
 } 
 
 
-export const genToken =(username:string,isAdmin:boolean)=>{
+export const genToken =(id:string,username:string,isAdmin:boolean)=>{
     const user = {
         username,isAdmin
     }
