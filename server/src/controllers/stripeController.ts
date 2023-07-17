@@ -16,7 +16,7 @@ const stripe = new Stripe(`${STRIPE_KEY}`,{
 
 const makePayment = async(req:CustomRequest,res:Response)=>{
     // add to the orders
-    const userId = req.user._id;
+    const userId = req.user.id;
     const address = req.body.address
     const totalPrice = req.body.price;
     const items = req.body.items;
